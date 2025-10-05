@@ -6,8 +6,9 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "test:discogs": "ts-node src/tests/discogs.test.ts"
+    "start": "ts-node src/server.ts",
+    "test:discogs": "ts-node src/tests/discogs.test.ts",
+    "dev": "nodemon --exec ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.9.36",
-    "@types/express": "^5.0.3"
+    "@types/express": "^5.0.3",
+    "nodemon": "^3.1.10"
   }
 }
