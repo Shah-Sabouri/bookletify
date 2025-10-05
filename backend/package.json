@@ -6,7 +6,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/index.ts",
+    "test:discogs": "ts-node src/tests/discogs.test.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,9 +15,13 @@
   "description": "",
   "dependencies": {
     "@types/node": "^24.6.2",
+    "axios": "^1.12.2",
     "dotenv": "^17.2.3",
     "node-fetch": "^3.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36"
   }
 }
