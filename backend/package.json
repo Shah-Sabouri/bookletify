@@ -23,6 +23,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/axios": "^0.9.36"
+    "@types/axios": "^0.9.36",
+    "@types/express": "^5.0.3"
   }
 }
