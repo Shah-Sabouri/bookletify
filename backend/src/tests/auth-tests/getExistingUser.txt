@@ -1,0 +1,1 @@
+{"message":"User profile","user":{"_id":"68e66884452243fab5ec763a","username":"Shahryar","email":"shah@example.com","createdAt":"2025-10-08T13:35:00.706Z","updatedAt":"2025-10-08T13:35:00.706Z","__v":0}}
