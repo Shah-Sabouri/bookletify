@@ -1,0 +1,1 @@
+{"user":{"id":1,"username":"Shahryar","email":"shah@example.com","password":"$2b$10$04A54mhDc7l2Cm/hIBTxOOzUn0JlsqwanqLgbUSep/tQTOycR9Xs."},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJpYXQiOjE3NTk5MjgzMTUsImV4cCI6MTc2MDAxNDcxNX0.CCUZAbIlBfQxjQ2z2ngSKZuUg4mGvEeqwQmtJsvSZMM"}
