@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import { connectDB } from "./config/db";
 import discogsRoutes from "./routes/discogs.routes";
 import authRoutes from "./routes/auth.routes";
 
@@ -10,4 +11,7 @@ app.use(express.json());
 app.use("/api", discogsRoutes);
 app.use("/api/auth", authRoutes);
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+const PORT = 3000;
+connectDB().then(() => {
+    app.listen(3000, () => console.log(`Server running on http://localhost:${3000}`));
+});
