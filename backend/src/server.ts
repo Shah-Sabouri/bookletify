@@ -7,6 +7,10 @@ import authRoutes from "./routes/auth.routes";
 dotenv.config();
 const app = express();
 
+app.get("/", (req, res) => {
+    res.send("<h1>🎵 Bookletify Backend is Live!</h1><p>Server running smoothly 🚀</p>");
+});
+
 app.use(express.json());
 app.use("/api", discogsRoutes);
 app.use("/api/auth", authRoutes);
