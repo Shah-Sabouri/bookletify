@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
-import { createReview, getReviewsByAlbum, deleteReview } from "../services/review.service";
+import { createReview, 
+    getReviewsByAlbum, 
+    deleteReview,
+    getAverageRatingByAlbum } from "../services/review.service";
 
 export const addReview = async (req: Request, res: Response) => {
     try {
@@ -38,6 +41,21 @@ export const removeReview = async (req: Request, res: Response) => {
         }
 
         res.json({ message: "Review deleted"})
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const getAlbumAverageRating = async (req: Request, res: Response) => {
+    try {
+        const albumId = req.params.id as string;
+        const average = await getAverageRatingByAlbum(albumId);
+
+        if (average === null) {
+            return res.status(404).json({ message: "No ratings found for this album" });
+        }
+
+        res.json({ albumId, averageRating: average.toFixed(2) });
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     }

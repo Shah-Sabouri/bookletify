@@ -1,0 +1,1 @@
+{"albumId":"12345","averageRating":"3.00"}

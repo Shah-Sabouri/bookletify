@@ -12,3 +12,11 @@ export const getReviewsByAlbum = async (albumId: string): Promise<IReview[]> => 
 export const deleteReview = async (id: string, userId: string): Promise<IReview | null> => {
     return await Review.findOneAndDelete({ _id: id, userId });
 };
+
+export const getAverageRatingByAlbum = async (albumId: string) => {
+    const result = await Review.aggregate([
+        { $match: { albumId } },
+        { $group: { _id: "$albumId", averageRating: { $avg: "$rating" } } },
+    ]);
+    return result.length ? result[0].averageRating : null;
+};

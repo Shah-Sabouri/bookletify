@@ -1,0 +1,1 @@
+{"albumId":"12345","userId":"68e93c46a4dd303c3cf64f66","comment":"Man that shit is trash!","rating":1,"_id":"68e93ca0a4dd303c3cf64f69","createdAt":"2025-10-10T17:04:32.193Z","updatedAt":"2025-10-10T17:04:32.193Z","__v":0}
