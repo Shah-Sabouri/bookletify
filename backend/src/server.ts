@@ -4,6 +4,7 @@ import { connectDB } from "./config/db";
 import discogsRoutes from "./routes/discogs.routes";
 import authRoutes from "./routes/auth.routes";
 import reviewRoutes from "./routes/review.routes";
+import favoriteRoutes from "./routes/favorite.routes";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/api", discogsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/favorites", favoriteRoutes);
 
 const PORT = 3000;
 connectDB().then(() => {

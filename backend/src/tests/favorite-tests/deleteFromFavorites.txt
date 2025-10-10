@@ -1,0 +1,1 @@
+{"message":"Removed from favorites","removed":{"_id":"68e9447f650b5b08b52e64e8","userId":"68e934f48eaf83daa2f82019","albumId":"12345","createdAt":"2025-10-10T17:38:07.990Z","__v":0}}
