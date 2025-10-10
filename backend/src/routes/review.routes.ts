@@ -5,7 +5,7 @@ import { addReview, getAlbumReviews, removeReview } from "../controllers/review.
 const router = express.Router();
 
 router.post("/", authenticateToken, addReview);
-router.get("/:albumId", getAlbumReviews);
+router.get("/:albumId", authenticateToken, getAlbumReviews);
 router.delete("/:id", authenticateToken, removeReview);
 
 export default router;
