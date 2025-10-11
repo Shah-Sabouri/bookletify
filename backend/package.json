@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "ts-node src/server.ts",
-    "test:discogs": "ts-node src/tests/discogs.test.ts",
+    "test:discogs": "npx ts-node ./src/tests/discogs-tests/discogs.test.ts",
     "dev": "nodemon --exec ts-node src/server.ts"
   },
   "keywords": [],
