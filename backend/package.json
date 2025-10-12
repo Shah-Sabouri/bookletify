@@ -7,8 +7,10 @@
   },
   "scripts": {
     "start": "ts-node src/server.ts",
-    "test:discogs": "npx ts-node ./src/tests/discogs-tests/discogs.test.ts",
-    "dev": "nodemon --exec ts-node src/server.ts"
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "test": "jest --runInBand --verbose",
+    "test:favorites": "jest src/tests/favorite-tests --runInBand --verbose",
+    "test:discogs": "npx ts-node ./src/tests/discogs-tests/discogs.test.ts"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +33,11 @@
     "@types/axios": "^0.9.36",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "nodemon": "^3.1.10"
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.2.3",
+    "nodemon": "^3.1.10",
+    "ts-jest": "^29.4.5"
   }
 }
