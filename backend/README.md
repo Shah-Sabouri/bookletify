@@ -1,15 +1,34 @@
 # 🎵 Bookletify Backend
+
+## Table of Contents
+- [Description](#-description)
+- [Installation](#-installation)
+- [Testing](#-testing)
+- [Endpoints](#-endpoints)
+- [Features](#-features)
+- [Structure](#-structure)
+- [Author](#-author)
+
+---
+
 ## 📖 Description
 
-A Node.js + TypeScript API that handles user authentication (JWT + bcrypt) and fetches album information from the Discogs API.
+A Node.js + TypeScript API that handles user authentication (JWT + bcrypt) and fetches album information from the Discogs API.  
 The database uses MongoDB Atlas.
 
+The API is **live** at: [https://bookletify-api.onrender.com](https://bookletify-api.onrender.com)
+
+---
+
 ## 🚀 Installation
+
+```bash
 git clone <repo-url>
 cd backend
 npm install
+```
 
-## Create an .env file in backend/:
+### Create an .env file in backend/:
 
 ```ini
 PORT=3000
@@ -20,11 +39,29 @@ DISCOGS_API_URL=https://api.discogs.com/database/search
 DISCOGS_TOKEN=yourDiscogsToken
 ```
 
-
-## Start the server:
+### Start the server:
+#### Development:
 ```bash
 npm run dev
 ```
+
+#### Production (after build):
+```bash
+npm run build
+npm start
+```
+
+---
+
+## 🧪 Testing
+All endpoints can be tested with cURL, Postman, or Insomnia.
+
+For a full overview of the automated Jest test suite (Auth, Reviews, Favorites, Discogs),
+see the detailed test documentation here:
+
+👉 [View full Test Suite Documentation](./src/tests/README.md)
+
+---
 
 ## 🧩 Endpoints
 
@@ -53,6 +90,7 @@ curl -X GET http://localhost:3000/api/auth/profile \
 curl "http://localhost:3000/api/discogs?artist=2pac"
 ```
 
+---
 
 ## ✅ Features
 
@@ -63,8 +101,7 @@ curl "http://localhost:3000/api/discogs?artist=2pac"
 - Input validation with express-validator
 - Consistent error messages
 
-## 🧪 Testing
-All endpoints can be tested with cURL, Postman, or Insomnia.
+---
 
 ## 📂 Structure
 ```css
@@ -77,6 +114,8 @@ src/
 ├── utils/  
 └── server.ts  
 ```
+
+---
 
 ## 👨‍💻 Author
 Shahryar Sabouri  
