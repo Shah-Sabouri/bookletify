@@ -8,6 +8,7 @@
   "scripts": {
     "start": "ts-node src/server.ts",
     "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
     "test": "jest --runInBand --verbose",
     "test:favorites": "jest src/tests/favorite-tests --runInBand --verbose",
     "test:reviews": "jest src/tests/review-tests --runInBand --verbose",
