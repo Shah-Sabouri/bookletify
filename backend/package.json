@@ -11,7 +11,8 @@
     "test": "jest --runInBand --verbose",
     "test:favorites": "jest src/tests/favorite-tests --runInBand --verbose",
     "test:reviews": "jest src/tests/review-tests --runInBand --verbose",
-    "test:discogs": "npx ts-node ./src/tests/discogs-tests/discogs.test.ts"
+    "test:discogs": "npx ts-node ./src/tests/discogs-tests/discogs.test.ts",
+    "test:auth": "jest /src/tests/auth-tests/auth.test.ts --runInBand --verbose"
   },
   "keywords": [],
   "author": "",
