@@ -5,6 +5,7 @@ import discogsRoutes from "./routes/discogs.routes";
 import authRoutes from "./routes/auth.routes";
 import reviewRoutes from "./routes/review.routes";
 import favoriteRoutes from "./routes/favorite.routes";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
@@ -23,3 +24,7 @@ const PORT = process.env.PORT || 3000;
 connectDB().then(() => {
     app.listen(3000, () => console.log(`Server running on port ${PORT}`));
 });
+
+app.use(cors({
+    origin: "*",
+}));
