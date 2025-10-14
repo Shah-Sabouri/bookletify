@@ -10,6 +10,10 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 
+app.use(cors({ origin: "*" }));
+
+app.use(express.json());
+
 app.get("/", (req, res) => {
     res.send("<h1>🎵 Bookletify Backend is Live!</h1><p>Server running smoothly 🚀</p>");
 });
@@ -24,7 +28,3 @@ const PORT = process.env.PORT || 3000;
 connectDB().then(() => {
     app.listen(3000, () => console.log(`Server running on port ${PORT}`));
 });
-
-app.use(cors({
-    origin: "*",
-}));
