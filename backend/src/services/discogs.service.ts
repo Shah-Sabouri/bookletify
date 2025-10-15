@@ -33,3 +33,24 @@ export const fetchDiscogsData = async (artist: string) => {
         genre: r.genre,
     }));
 };
+
+export const fetchDiscogsAlbumById = async (masterId: number) => {
+    const token = process.env.DISCOGS_TOKEN;
+    if (!token) throw new Error("Discogs token missing in .env");
+
+    const res = await axios.get(`https://api.discogs.com/masters/${masterId}`, {
+        params: { token },
+        headers: { "User-Agent": "Bookletify/1.0 +https://github.com/Shah-Sabouri" },
+    });
+
+    return {
+        master_id: res.data.id,
+        title: res.data.title,
+        year: res.data.year,
+        country: res.data.country,
+        format: res.data.formats?.map((f: any) => f.name),
+        cover_image: res.data.images?.[0]?.uri,
+        genre: res.data.genres,
+    };
+};
+

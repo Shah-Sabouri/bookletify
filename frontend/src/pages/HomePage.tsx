@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!query.trim()) return;
+        if (!query) return;
 
         setLoading(true);
         setError("");
@@ -29,34 +29,17 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: "20px", textAlign: "center" }}>
-            <h1 style={{ fontSize: "2rem", marginBottom: "20px" }}>Bookletify 🎵</h1>
-
+        <div style={{ padding: "20px" }}>
+            <h1>Bookletify 🎵</h1>
             <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
                 <input
-                    type="text"
-                    placeholder="Search artist..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    style={{
-                        padding: "10px",
-                        width: "300px",
-                        borderRadius: "6px",
-                        border: "1px solid #ccc",
-                    }}
+                type="text"
+                placeholder="Search artist..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                style={{ padding: "8px", width: "250px" }}
                 />
-                <button
-                    type="submit"
-                    style={{
-                        padding: "10px 15px",
-                        marginLeft: "8px",
-                        borderRadius: "6px",
-                        border: "none",
-                        backgroundColor: "#007BFF",
-                        color: "white",
-                        cursor: "pointer",
-                    }}
-                >
+                <button type="submit" style={{ padding: "8px", marginLeft: "5px" }}>
                     Search
                 </button>
             </form>
@@ -68,16 +51,9 @@ const HomePage: React.FC = () => {
                 <p>No results found for "{query}".</p>
             )}
 
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-                    gap: "20px",
-                    justifyItems: "center",
-                }}
-            >
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {results.map((album) => (
-                    <AlbumCard key={album.master_id} {...album} />
+                    <AlbumCard key={album.master_id} album={album} />
                 ))}
             </div>
         </div>
