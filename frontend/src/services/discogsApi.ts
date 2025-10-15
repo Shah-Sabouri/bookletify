@@ -7,8 +7,8 @@ export const discogsApi = {
         return res.data.releases as Album[]; // List of albums from backend
     },
 
-    getAlbumById: async (id: string): Promise<Album> => {
-        const res = await axiosClient.get(`/albums/${id}`);
-        return res.data as Album;
-    },
+    getAlbumById: async (masterId: number): Promise<Album> => {
+        const res = await axiosClient.get(`/discogs/album?master_id=${masterId}`);
+        return res.data.album as Album;
+    }
 };
