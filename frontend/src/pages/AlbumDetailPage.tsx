@@ -8,16 +8,18 @@ import type { Album } from "../types/album";
 
 const AlbumDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const masterId = Number(id);
     const [album, setAlbum] = useState<Album | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchAlbum = async () => {
-            if (!id) return;
+            if (!masterId) return;
             setLoading(true);
             try {
-                const result = await discogsApi.getAlbumById(id);
+                console.log("Fetching album with master_id:", masterId);
+                const result = await discogsApi.getAlbumById(masterId);
                 setAlbum(result);
             } catch (err) {
                 console.error(err);
@@ -27,7 +29,7 @@ const AlbumDetailPage: React.FC = () => {
             }
         };
         fetchAlbum();
-    }, [id]);
+    }, [masterId]);
 
     const handleAddFavorite = async () => {
         if (!album) return;

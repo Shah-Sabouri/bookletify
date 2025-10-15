@@ -8,6 +8,7 @@ export const discogsApi = {
     },
 
     getAlbumById: async (masterId: number): Promise<Album> => {
+        if (!masterId) throw new Error("masterId is undefined");
         const res = await axiosClient.get(`/discogs/album?master_id=${masterId}`);
         return res.data.album as Album;
     }
