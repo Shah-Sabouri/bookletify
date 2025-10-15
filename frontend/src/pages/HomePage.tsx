@@ -12,19 +12,17 @@ const HomePage: React.FC = () => {
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!query) return;
+
         setLoading(true);
         setError("");
+        setResults([]);
+
         try {
-            const albums = await discogsApi.searchAlbums(query);
+            const albums: Album[] = await discogsApi.searchAlbums(query);
             setResults(albums);
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.error(err.message);
-                setError("Failed to fetch albums. Try again.");
-            } else {
-                console.error(err);
-                setError("An unexpected error occurred.");
-            }
+            console.error(err);
+            setError("Failed to fetch albums. Try again.");
         } finally {
             setLoading(false);
         }
@@ -34,24 +32,27 @@ const HomePage: React.FC = () => {
         <div style={{ padding: "20px" }}>
             <h1>Bookletify 🎵</h1>
             <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
-            <input
+                <input
                 type="text"
                 placeholder="Search artist..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 style={{ padding: "8px", width: "250px" }}
-            />
-            <button type="submit" style={{ padding: "8px", marginLeft: "5px" }}>
+                />
+                <button type="submit" style={{ padding: "8px", marginLeft: "5px" }}>
                 Search
-            </button>
-        </form>
+                </button>
+            </form>
 
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {results.length === 0 && !loading && <p>No results found.</p>}
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {results.map((album, index) => (
+            {!loading && results.length === 0 && query && (
+                <p>No results found for "{query}".</p>
+            )}
+
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {results.map((album, index) => (
                 <AlbumCard key={index} {...album} />
                 ))}
             </div>
