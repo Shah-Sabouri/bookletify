@@ -1,4 +1,5 @@
 export interface Album {
+    master_id: number;
     title: string;
     year?: number;
     country?: string;

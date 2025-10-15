@@ -76,8 +76,8 @@ const HomePage: React.FC = () => {
                     justifyItems: "center",
                 }}
             >
-                {results.map((album, index) => (
-                    <AlbumCard key={index} {...album} />
+                {results.map((album) => (
+                    <AlbumCard key={album.master_id} {...album} />
                 ))}
             </div>
         </div>

@@ -24,6 +24,7 @@ export const fetchDiscogsData = async (artist: string) => {
     );
 
     return unique.map((r: any) => ({
+        master_id: r.master_id,
         title: r.title,
         year: r.year,
         country: r.country,
