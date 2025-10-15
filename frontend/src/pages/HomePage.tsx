@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!query) return;
+        if (!query.trim()) return;
 
         setLoading(true);
         setError("");
@@ -29,31 +29,55 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Bookletify 🎵</h1>
+        <div style={{ padding: "20px", textAlign: "center" }}>
+            <h1 style={{ fontSize: "2rem", marginBottom: "20px" }}>Bookletify 🎵</h1>
+
             <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
                 <input
-                type="text"
-                placeholder="Search artist..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                style={{ padding: "8px", width: "250px" }}
+                    type="text"
+                    placeholder="Search artist..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    style={{
+                        padding: "10px",
+                        width: "300px",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                    }}
                 />
-                <button type="submit" style={{ padding: "8px", marginLeft: "5px" }}>
-                Search
+                <button
+                    type="submit"
+                    style={{
+                        padding: "10px 15px",
+                        marginLeft: "8px",
+                        borderRadius: "6px",
+                        border: "none",
+                        backgroundColor: "#007BFF",
+                        color: "white",
+                        cursor: "pointer",
+                    }}
+                >
+                    Search
                 </button>
             </form>
 
             {loading && <p>Loading...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
 
-            {!loading && results.length === 0 && query && (
+            {!loading && !error && results.length === 0 && query && (
                 <p>No results found for "{query}".</p>
             )}
 
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+                    gap: "20px",
+                    justifyItems: "center",
+                }}
+            >
                 {results.map((album, index) => (
-                <AlbumCard key={index} {...album} />
+                    <AlbumCard key={index} {...album} />
                 ))}
             </div>
         </div>
