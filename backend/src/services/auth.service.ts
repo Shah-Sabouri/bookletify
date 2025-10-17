@@ -17,8 +17,8 @@ export const registerUser = async (username: string, email: string, password: st
     return { user: newUser, token };
 };
 
-export const loginUser = async (email: string, password: string) => {
-    const user = await User.findOne({ email });
+export const loginUser = async (username: string, password: string) => {
+    const user = await User.findOne({ username });
     if (!user) throw new Error("Invalid credentials");
 
     const isMatch = await bcrypt.compare(String(password), String(user.password));

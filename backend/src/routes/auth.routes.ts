@@ -22,7 +22,7 @@ router.post("/register",
 // LOGIN ROUTE
 router.post("/login",
     [
-        body("email").notEmpty().withMessage("Valid email is required"),
+        body("username").notEmpty().withMessage("Valid email is required"),
         body("password").notEmpty().withMessage("Password is required"),
     ],
     validateRequest,

@@ -18,12 +18,12 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { username, password } = req.body;
+        if (!username || !password) {
             return res.status(400).json({ error: "Missing email or password" });
         }
 
-        const result = await loginUser(email, password);
+        const result = await loginUser(username, password);
         return res.json(result);
     } catch (err: any) {
         return res.status(400).json({ error: err.message });
