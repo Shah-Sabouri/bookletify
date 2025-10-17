@@ -51,6 +51,11 @@ export const fetchDiscogsAlbumById = async (masterId: number) => {
         format: res.data.formats?.map((f: any) => f.name),
         cover_image: res.data.images?.[0]?.uri,
         genre: res.data.genres,
+        tracklist: res.data.tracklist?.map((t: any) => ({
+            position: t.position,
+            title: t.title,
+            duration:t.duration,
+        })),
     };
 };
 
