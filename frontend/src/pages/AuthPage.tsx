@@ -5,76 +5,96 @@ import { useAuth } from "../context/useAuth";
 import { loginUser, registerUser } from "../services/authApi";
 
 const AuthPage: React.FC = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [loginUsername, setLoginUsername] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+    const [registerUsername, setRegisterUsername] = useState("");
+    const [registerEmail, setRegisterEmail] = useState("");
+    const [registerPassword, setRegisterPassword] = useState("");
     const [error, setError] = useState("");
+
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
-
         try {
-            if (isLogin) {
-                const { token, user } = await loginUser(username, password);
-                login(token, user);
-                navigate("/"); // redirect after login
-            } else {
-                const { token, user } = await registerUser(username, email, password);
-                login(token, user);
-                navigate("/");
-            }
+            const { token, user } = await loginUser(loginUsername, loginPassword);
+            login(token, user);
+            navigate("/");
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("Something went wrong");
-            }
+            if (err instanceof Error) setError(err.message);
+            else setError("Something went wrong");
+        }
+    };
+
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        try {
+            const { token, user } = await registerUser(registerUsername, registerEmail, registerPassword);
+            login(token, user);
+            navigate("/");
+        } catch (err: unknown) {
+            if (err instanceof Error) setError(err.message);
+            else setError("Something went wrong");
         }
     };
 
     return (
-        <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", border: "1px solid #ccc", borderRadius: "10px" }}>
-        <h2>{isLogin ? "Logga in" : "Registrera dig"}</h2>
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            />
-            {!isLogin && (
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-            )}
-            <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            />
-            <button type="submit">{isLogin ? "Logga in" : "Registrera"}</button>
-        </form>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-            <p style={{ marginTop: "15px" }}>
-                {isLogin ? "Har du inget konto?" : "Har du redan ett konto?"}{" "}
-                <span
-                onClick={() => setIsLogin(!isLogin)}
-                style={{ color: "#007bff", cursor: "pointer" }}
-                >
-                    {isLogin ? "Registrera dig här" : "Logga in här"}
-                </span>
-            </p>
+        <div style={{ display: "flex", gap: "20px", maxWidth: "900px", margin: "40px auto" }}>
+            {/* Login Box */}
+            <div style={{ flex: 1, padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
+                <h2>Login</h2>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                <form onSubmit={handleLogin}>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={loginUsername}
+                        onChange={(e) => setLoginUsername(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Sign in</button>
+                </form>
+            </div>
+
+            {/* Register Box */}
+            <div style={{ flex: 1, padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
+                <h2>Not a member? Join today!</h2>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                <form onSubmit={handleRegister}>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={registerUsername}
+                        onChange={(e) => setRegisterUsername(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={registerEmail}
+                        onChange={(e) => setRegisterEmail(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={registerPassword}
+                        onChange={(e) => setRegisterPassword(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Register</button>
+                </form>
+            </div>
         </div>
     );
 };
