@@ -14,7 +14,17 @@ export const registerUser = async (username: string, email: string, password: st
     });
 
     const token = generateToken(String(newUser._id));
-    return { user: newUser, token };
+
+    // Return "safe" user data without password
+    const safeUser = {
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+    };
+
+    return { user: safeUser, token };
 };
 
 export const loginUser = async (username: string, password: string) => {
@@ -25,5 +35,14 @@ export const loginUser = async (username: string, password: string) => {
     if (!isMatch) throw new Error("Invalid credentials");
 
     const token = generateToken(String(user._id));
-    return { user, token };
+
+    const safeUser = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+    };
+
+    return { user: safeUser, token };
 };
