@@ -4,7 +4,7 @@ import { discogsApi } from "../services/discogsApi";
 import { addToFavorites } from "../services/favoritesApi";
 import ReviewsList from "../components/ReviewsList";
 import ReviewForm from "../components/ReviewForm";
-import type { Album } from "../types/album";
+import type { Album, Track } from "../types/album";
 
 const AlbumDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -47,27 +47,74 @@ const AlbumDetailPage: React.FC = () => {
 
     const handleGoBack = () => {
         navigate("/");
-    }
+    };
 
     if (loading) return <p>Loading album...</p>;
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!album) return <p>No album found.</p>;
 
     return (
-        <div style={{ padding: "20px" }}>
-            <button onClick={handleGoBack} style={{ marginBottom: "20px" }}>
+        <div style={{ padding: "20px", maxWidth: "700px", margin: "0 auto" }}>
+            {/* Go Back button */}
+            <button
+                onClick={handleGoBack}
+                style={{
+                    background: "none",
+                    border: "none",
+                    color: "#007bff",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    marginBottom: "20px",
+                }}
+            >
                 ← Go Back
             </button>
+
             <h2>{album.title}</h2>
+
             {album.cover_image && (
-                <img src={album.cover_image} alt={album.title} width={250} />
+                <img
+                    src={album.cover_image}
+                    alt={album.title}
+                    width={250}
+                    style={{ borderRadius: "10px", marginBottom: "15px" }}
+                />
             )}
+
             <p><strong>Year:</strong> {album.year || "Unknown"}</p>
             <p><strong>Country:</strong> {album.country || "Unknown"}</p>
             <p><strong>Format:</strong> {album.format?.join(", ") || "N/A"}</p>
             <p><strong>Genre:</strong> {album.genre?.join(", ") || "N/A"}</p>
 
-            <button onClick={handleAddFavorite} style={{ marginTop: "10px" }}>
+            {/* Tracklist */}
+            {album.tracklist && album.tracklist.length > 0 && (
+                <div style={{ marginTop: "25px" }}>
+                    <h3>Track List</h3>
+                    <ul style={{ listStyle: "disc", paddingLeft: "20px" }}>
+                        {album.tracklist.map((track: Track, index: number) => (
+                            <li key={index}>
+                                <strong>{track.position}</strong> {track.title}{" "}
+                                <span style={{ color: "gray" }}>
+                                    ({track.duration || "?"})
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            <button
+                onClick={handleAddFavorite}
+                style={{
+                    marginTop: "20px",
+                    backgroundColor: "#ff6b81",
+                    color: "#fff",
+                    border: "none",
+                    padding: "10px 15px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                }}
+            >
                 ❤️ Add to Favorites
             </button>
 

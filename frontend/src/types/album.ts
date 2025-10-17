@@ -1,3 +1,9 @@
+export interface Track {
+    position: string;
+    title: string;
+    duration?: string;
+}
+
 export interface Album {
     master_id: number;
     title: string;
@@ -6,4 +12,5 @@ export interface Album {
     format?: string[];
     cover_image?: string;
     genre?: string[];
+    tracklist?: Track[];
 }
