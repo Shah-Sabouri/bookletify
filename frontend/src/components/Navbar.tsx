@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
 
     const handleLogout = () => {
         logout();
-        navigate("/login");
+        navigate("/");
     };
 
     return (
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
                         <button onClick={handleLogout}>Log out</button>
                     </>
                 ) : (
-                    <Link to="/login">Login / Register</Link>
+                    <Link to="/auth">Login / Register</Link>
                 )}
             </div>
         </nav>
