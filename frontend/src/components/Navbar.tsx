@@ -12,15 +12,15 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <nav>
+        <nav style={{ padding: "10px 20px", display: "flex", justifyContent: "space-between", borderBottom: "1px solid #ccc"}}>
             <div>
-                <Link to="/">Home</Link>
+                <Link to="/" style={{ marginRight: "15px" }}>Home</Link>
             </div>
             <div>
                 {user? (
                     <>
-                        <span>Hello, {user.username}</span>
-                        <Link to="/favorites">Favorites</Link>
+                        <span style={{ marginRight: "15px" }}>Hello, {user.username}</span>
+                        <Link to="/favorites" style={{ marginRight: "15px" }}>Favorites</Link>
                         <button onClick={handleLogout}>Log out</button>
                     </>
                 ) : (
