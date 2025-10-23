@@ -20,3 +20,7 @@ export const getAverageRatingByAlbum = async (albumId: string) => {
     ]);
     return result.length ? result[0].averageRating : null;
 };
+
+export const getReviewsByUser = async (userId: string): Promise<IReview[]> => {
+    return await Review.find({ userId }).sort({ createdAt: -1 });
+};

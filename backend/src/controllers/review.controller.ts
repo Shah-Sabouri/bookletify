@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { createReview, 
     getReviewsByAlbum, 
     deleteReview,
-    getAverageRatingByAlbum } from "../services/review.service";
+    getAverageRatingByAlbum,
+    getReviewsByUser } from "../services/review.service";
 
 export const addReview = async (req: Request, res: Response) => {
     try {
@@ -56,6 +57,16 @@ export const getAlbumAverageRating = async (req: Request, res: Response) => {
         }
 
         res.json({ albumId, averageRating: average.toFixed(2) });
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const getUserReviews = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user.id;
+        const reviews = await getReviewsByUser(userId);
+        res.status(200).json(reviews);
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     }
