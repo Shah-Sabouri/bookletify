@@ -3,9 +3,9 @@ import HomePage from "./pages/HomePage";
 import AlbumDetailPage from "./pages/AlbumDetailPage";
 import { AuthProvider } from "./context/AuthContext";
 import AuthPage from "./pages/AuthPage";
+import UserProfilePage from "./pages/UserProfilePage";
 import Navbar from "./components/Navbar";
 
-const FavoritesPage = () => <h2>Favorites Page (Coming Soon)</h2>;
 const NotFoundPage = () => <h2>404 - Page Not Found</h2>;
 
 function AppContent() {
@@ -18,7 +18,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/album/:id" element={<AlbumDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

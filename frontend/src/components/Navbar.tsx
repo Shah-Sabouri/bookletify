@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
                 {user? (
                     <>
                         <span style={{ marginRight: "15px" }}>Hello, {user.username}</span>
-                        <Link to="/favorites" style={{ marginRight: "15px" }}>Favorites</Link>
+                        <Link to="/profile" style={{ marginRight: "15px" }}>Profile</Link>
                         <button onClick={handleLogout}>Log out</button>
                     </>
                 ) : (
