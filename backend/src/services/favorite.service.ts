@@ -1,19 +1,17 @@
-import { Favorite } from "../models/favorite.model";
+import { Favorite, IFavorite } from "../models/favorite.model";
 
-export const addFavorite = async (userId: string, albumId: string) => {
-    const existing = await Favorite.findOne({ userId, albumId });
-    if (existing) throw new Error("Album already in favorites");
+export const addFavorite = async (userId: string, albumId: string): Promise<IFavorite> => {
+    const exists = await Favorite.findOne({ userId, albumId });
+    if (exists) throw new Error("Album already in favorites");
 
     const favorite = new Favorite({ userId, albumId });
     return await favorite.save();
 };
 
 export const removeFavorite = async (userId: string, albumId: string) => {
-    const deleted = await Favorite.findOneAndDelete({ userId, albumId });
-    if (!deleted) throw new Error("Favorite not found");
-    return deleted;
+    return await Favorite.findOneAndDelete({ userId, albumId });
 };
 
 export const getFavoritesByUser = async (userId: string) => {
-    return await Favorite.find({ userId }).sort({ createdAt: -1 });
+    return await Favorite.find({ userId });
 };

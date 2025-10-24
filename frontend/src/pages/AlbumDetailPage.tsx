@@ -37,7 +37,7 @@ const AlbumDetailPage: React.FC = () => {
     const handleAddFavorite = async () => {
         if (!album) return;
         try {
-            await addToFavorites(album);
+            await addToFavorites(album.master_id.toString());
             alert("Added to favorites!");
         } catch (err) {
             console.error(err);

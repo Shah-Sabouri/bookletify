@@ -4,7 +4,7 @@ import { addFavorite, removeFavorite, getFavoritesByUser } from "../services/fav
 export const addToFavorites = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).user.id;
-        const albumId = req.body.albumId as string;
+        const { albumId } = req.body;
 
         if (!albumId) return res.status(400).json({ error: "albumId is required" });
 
@@ -20,10 +20,14 @@ export const removeFromFavorites = async (req: Request, res: Response) => {
         const userId = (req as any).user.id;
         const albumId = req.params.albumId as string;
 
-        const removed = await removeFavorite(userId, albumId);
-        res.json({ message: "Removed from favorites", removed });
+        const result = await removeFavorite(userId, albumId);
+        if (!result) {
+            return res.status(404).json({ error: "Favorite not found" })
+        }
+
+        res.json({ message: "Removed from favorites" });
     } catch (err: any) {
-        res.status(400).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 };
 
