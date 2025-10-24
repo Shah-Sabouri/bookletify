@@ -46,7 +46,7 @@ const AlbumDetailPage: React.FC = () => {
     };
 
     const handleGoBack = () => {
-        navigate("/");
+        navigate(-1);
     };
 
     if (loading) return <p>Loading album...</p>;
