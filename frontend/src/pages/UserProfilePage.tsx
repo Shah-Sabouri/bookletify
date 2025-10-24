@@ -38,7 +38,7 @@ export default function UserProfilePage() {
                     fetch(`https://bookletify-api.onrender.com/api/favorites`, {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
-                    fetch(`https://bookletify-api.onrender.com/api/users/${user?.id}/reviews`, {
+                    fetch(`https://bookletify-api.onrender.com/api/reviews/user`, {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
                 ]);
