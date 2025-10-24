@@ -11,6 +11,12 @@ interface Album {
     coverUrl: string;
 }
 
+interface Favorite {
+    _id: string;
+    albumId: string;
+    createdAt: string;
+}
+
 interface Review {
     _id: string;
     albumTitle: string;
@@ -21,7 +27,7 @@ interface Review {
 export default function UserProfilePage() {
     const { user, token } = useAuth();
     const navigate = useNavigate();
-    const [favorites, setFavorites] = useState<Album[]>([]);
+    const [favorites, setFavorites] = useState<Favorite[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -80,8 +86,21 @@ export default function UserProfilePage() {
                     <p className="text-gray-500">No favorites yet.</p>
                 ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {favorites.map((album) => (
-                            <AlbumCard key={album._id} album={album} />
+                        {favorites.map((fav) => (
+                            <div
+                            key={fav._id}
+                            onClick={() => navigate(`/album/${fav.albumId}`)}
+                            style={{ cursor: "pointer" }}
+                            >
+                                <AlbumCard
+                                album={{
+                                    master_id: Number(fav.albumId),
+                                    title: "View album",
+                                    artist: "",
+                                    coverUrl: "",
+                                } as Album}
+                                />
+                            </div>
                         ))}
                     </div>
                 )}
