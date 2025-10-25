@@ -46,11 +46,11 @@ describe("Favorite Service", () => {
         expect(favorites[0]).toHaveProperty("albumId");
     });
 
-/*     it("should remove a favorite successfully", async () => {
+    it("should remove a favorite successfully", async () => {
         await addFavorite(userId.toString(), albumId);
         const removed = await removeFavorite(userId.toString(), albumId);
         expect(removed.albumId).toBe(albumId);
-    }); */
+    });
 
     it("should throw an error when removing a non-existent favorite", async () => {
         await expect(removeFavorite(userId.toString(), "nonexistent")).rejects.toThrow("Favorite not found");
