@@ -6,7 +6,7 @@ interface Props {
 }
 
 interface Review {
-    user?: string;
+    userId?: {username: string };
     rating: number;
     comment: string;
 }
@@ -49,7 +49,7 @@ const ReviewsList: React.FC<Props> = ({ albumId }) => {
                         }}
                     >
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-                            <strong>{r.user || "Anonymous"}</strong>
+                            <strong>{r.userId?.username ?? "Anonymous"}</strong>
                             <span style={{ color: "#ffb400" }}>⭐ {r.rating}/5</span>
                         </div>
                         <p style={{ margin: 0, color: "#333", lineHeight: 1.4 }}>{r.comment}</p>
