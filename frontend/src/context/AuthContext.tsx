@@ -23,16 +23,19 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Läs från localStorage vid init
         const storedToken = localStorage.getItem("token");
         const storedUser = localStorage.getItem("user");
         if (storedToken && storedUser) {
             setToken(storedToken);
             setUser(JSON.parse(storedUser));
         }
+        setLoading(false);
     }, []);
+
+    if (loading) return null;
 
     const login = (newToken: string, newUser: User) => {
         setToken(newToken);
