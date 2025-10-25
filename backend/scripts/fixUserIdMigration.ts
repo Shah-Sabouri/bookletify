@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { Review } from "../src/models/review.model";
 
-dotenv.config();
+dotenv.config({ path: "./.env" });
 
 async function fixUserIds() {
     await mongoose.connect(process.env.MONGO_URI!);
