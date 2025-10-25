@@ -25,11 +25,18 @@ export const getAverageRatingByAlbum = async (albumId: string) => {
 };
 
 export const getReviewsByUser = async (userId: string): Promise<IReview[]> => {
-    const allReviews = await Review.find().populate("userId", "username").sort({ createdAt: -1 });
-
-    // Filter manually to catch both string och ObjectId formats
-    const filtered = allReviews.filter(r => String(r.userId) === userId);
-
-    console.log("Found reviews after filter:", filtered.length);
-    return filtered;
+    try {
+        const objectId = new mongoose.Types.ObjectId(userId);
+        const reviews = await Review.find({
+        $or: [{ userId }, { userId: objectId }],
+        })
+        .populate("userId", "username")
+        .sort({ createdAt: -1 });
+        
+        return reviews;
+    } catch (err) {
+        console.error("❌ Error fetching reviews for user:", err);
+        
+        return [];
+    }
 };
