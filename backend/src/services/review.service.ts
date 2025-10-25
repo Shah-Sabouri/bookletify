@@ -6,7 +6,9 @@ export const createReview = async (albumId: string, userId: string, comment: str
 };
 
 export const getReviewsByAlbum = async (albumId: string): Promise<IReview[]> => {
-    return await Review.find({ albumId }).sort({ createdAt: -1 });
+    return await Review.find({ albumId })
+    .populate("userId", "username")
+    .sort({ createdAt: -1 });
 };
 
 export const deleteReview = async (id: string, userId: string): Promise<IReview | null> => {
