@@ -1,14 +1,12 @@
-import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_API_URL || "https://bookletify-api.onrender.com/api";
+import axiosClient from "./axiosClient";
 
 export const reviewsApi = {
     getReviews: async (albumId: string) => {
-        const res = await axios.get(`${BASE_URL}/reviews${albumId}`);
+        const res = await axiosClient.get(`/reviews/${albumId}`);
         return res.data;
     },
-    postReview: async (albumId: string, text: string) => {
-        const res = await axios.post(`${BASE_URL}/reviews`, { albumId, text });
+    postReview: async (albumId: string, comment: string, rating: number) => {
+        const res = await axiosClient.post("/reviews", { albumId, comment, rating });
         return res.data;
     },
 };

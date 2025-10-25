@@ -5,8 +5,14 @@ interface Props {
     albumId: string;
 }
 
+interface Review {
+    user?: string;
+    rating: number;
+    comment: string;
+}
+
 const ReviewsList: React.FC<Props> = ({ albumId }) => {
-    const [reviews, setReviews] = useState<{ user: string; text: string }[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -28,13 +34,29 @@ const ReviewsList: React.FC<Props> = ({ albumId }) => {
     if (!reviews.length) return <p>No reviews yet.</p>;
 
     return (
-        <ul>
-            {reviews.map((r, i) => (
-                <li key={i}>
-                <strong>{r.user}</strong>: {r.text}
-                </li>
-            ))}
-        </ul>
+        <div style={{ marginTop: "20px" }}>
+            <h3 style={{ marginBottom: "10px" }}>User Reviews</h3>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+                {reviews.map((r, i) => (
+                    <li
+                        key={i}
+                        style={{
+                            background: "#f7f7f7",
+                            border: "1px solid #ddd",
+                            borderRadius: "8px",
+                            padding: "10px 14px",
+                            marginBottom: "10px",
+                        }}
+                    >
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                            <strong>{r.user || "Anonymous"}</strong>
+                            <span style={{ color: "#ffb400" }}>⭐ {r.rating}/5</span>
+                        </div>
+                        <p style={{ margin: 0, color: "#333", lineHeight: 1.4 }}>{r.comment}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 };
 
