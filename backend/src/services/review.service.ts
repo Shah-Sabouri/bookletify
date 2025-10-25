@@ -1,7 +1,8 @@
 import { Review, IReview } from "../models/review.model";
+import mongoose from "mongoose";
 
-export const createReview = async (albumId: string, userId: string, comment: string, rating: number): Promise<IReview> => {
-    const review = new Review({ albumId, userId, comment, rating });
+export const createReview = async (albumId: string, userId: string, comment: string, rating: number, albumTitle?: string): Promise<IReview> => {
+    const review = new Review({ albumId, userId, comment, rating, albumTitle });
     return await review.save();
 };
 
@@ -24,5 +25,7 @@ export const getAverageRatingByAlbum = async (albumId: string) => {
 };
 
 export const getReviewsByUser = async (userId: string): Promise<IReview[]> => {
-    return await Review.find({ userId }).sort({ createdAt: -1 });
+    return await Review.find({ userId: new mongoose.Types.ObjectId(userId) })
+    .populate("userId", "username")
+    .sort({ createdAt: -1 });
 };
