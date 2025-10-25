@@ -9,9 +9,9 @@ import { addReview,
 const router = express.Router();
 
 router.post("/", authenticateToken, addReview);
+router.get("/user", authenticateToken, getUserReviews);
 router.get("/:albumId", authenticateToken, getAlbumReviews);
 router.delete("/:id", authenticateToken, removeReview);
 router.get("/:id/rating", getAlbumAverageRating);
-router.get("/user", authenticateToken, getUserReviews);
 
 export default router;

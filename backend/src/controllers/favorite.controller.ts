@@ -4,11 +4,11 @@ import { addFavorite, removeFavorite, getFavoritesByUser } from "../services/fav
 export const addToFavorites = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).user.id;
-        const { albumId } = req.body;
+        const { albumId, title, artist, coverUrl } = req.body;
 
-        if (!albumId) return res.status(400).json({ error: "albumId is required" });
+        if (!albumId || !title || !artist || !coverUrl) return res.status(400).json({ error: "albumId is required" });
 
-        const favorite = await addFavorite(userId, albumId);
+        const favorite = await addFavorite(userId, albumId, title, artist, coverUrl);
         res.status(201).json({ message: "Successfully added to favorites", favorite });
     } catch (err: any) {
         res.status(400).json({ error: err.message });
