@@ -7,6 +7,7 @@ export interface Track {
 export interface Album {
     master_id: number;
     title: string;
+    artist?: string;
     year?: number;
     country?: string;
     format?: string[];

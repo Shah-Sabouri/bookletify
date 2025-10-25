@@ -3,25 +3,21 @@ import { useAuth } from "../context/useAuth";
 import AlbumCard from "../components/AlbumCard";
 import { useNavigate } from "react-router-dom";
 
-interface Album {
-    _id: string;
-    master_id: number;
-    title: string;
-    artist: string;
-    coverUrl: string;
-}
-
 interface Favorite {
     _id: string;
     albumId: string;
-    createdAt: string;
+    title?: string;
+    artist?: string;
+    coverUrl?: string;
 }
 
 interface Review {
     _id: string;
-    albumTitle: string;
+    albumId?: string;
+    album_id?: string;
     rating: number;
-    text: string;
+    comment?: string;
+    text?: string;
 }
 
 export default function UserProfilePage() {
@@ -48,7 +44,7 @@ export default function UserProfilePage() {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
                 ]);
-
+                
                 if (!favRes.ok || !revRes.ok) {
                     throw new Error("Failed to fetch user data");
                 }
@@ -73,59 +69,76 @@ export default function UserProfilePage() {
 
     return (
         <div className="max-w-6xl mx-auto p-6">
-            {/* User Info */}
-            <div className="flex flex-col items-center md:items-start mb-8 border-b border-gray-300 pb-6">
-                <h1 className="text-3xl font-bold mb-2">{user?.username}</h1>
-                <p className="text-gray-600">{user?.email}</p>
+        {/* USER INFO */}
+        <div className="flex flex-col items-center md:items-start mb-8 border-b border-gray-300 pb-6">
+            <h1 className="text-3xl font-bold mb-2">{user?.username}</h1>
+            <p className="text-gray-600">{user?.email}</p>
+        </div>
+
+        {/* FAVORITES */}
+        <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-4">Favorites</h2>
+            {favorites.length === 0 ? (
+                <p className="text-gray-500">No favorites yet.</p>
+            ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                {favorites.map((fav) => (
+                <div
+                    key={fav._id}
+                    onClick={() => navigate(`/album/${fav.albumId}`)}
+                    className="cursor-pointer"
+                >
+                    <AlbumCard
+                    album={{
+                        master_id: Number(fav.albumId),
+                        title: fav.title || "View album",
+                        artist: fav.artist || "Unknown Artist",
+                        cover_image: fav.coverUrl || "",
+                    }}
+                    />
+                </div>
+                ))}
             </div>
+            )}
+        </section>
 
-            {/* Favorites Section */}
-            <section className="mb-12">
-                <h2 className="text-2xl font-semibold mb-4">Your Favorite Albums</h2>
-                {favorites.length === 0 ? (
-                    <p className="text-gray-500">No favorites yet.</p>
-                ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {favorites.map((fav) => (
-                            <div
-                            key={fav._id}
-                            onClick={() => navigate(`/album/${fav.albumId}`)}
-                            style={{ cursor: "pointer" }}
-                            >
-                                <AlbumCard
-                                album={{
-                                    master_id: Number(fav.albumId),
-                                    title: "View album",
-                                    artist: "",
-                                    coverUrl: "",
-                                } as Album}
-                                />
-                            </div>
-                        ))}
+        {/* REVIEWS */}
+        <section>
+            <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+            {reviews.length === 0 ? (
+            <p className="text-gray-500">No reviews written yet.</p>
+            ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {reviews.map((review) => {
+                const albumId = review.albumId || review.album_id;
+                return (
+                    <div
+                    key={review._id}
+                    onClick={() => navigate(`/album/${albumId}`)}
+                    className="cursor-pointer border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+                    >
+                    <AlbumCard
+                        album={{
+                        master_id: Number(albumId),
+                        title: "Album Review",
+                        artist: "Unknown Artist",
+                        cover_image: "",
+                        }}
+                    />
+                    <div className="mt-3">
+                        <p className="text-yellow-500 font-medium">
+                        ⭐ {review.rating}/5
+                        </p>
+                        <p className="text-gray-700 mt-1 text-sm">
+                        {review.comment || review.text || "No comment provided"}
+                        </p>
                     </div>
-                )}
-            </section>
-
-            {/* Reviews Section */}
-            <section>
-                <h2 className="text-2xl font-semibold mb-4">Your Reviews</h2>
-                {reviews.length === 0 ? (
-                    <p className="text-gray-500">You haven’t written any reviews yet.</p>
-                ) : (
-                    <ul className="space-y-4">
-                        {reviews.map((review) => (
-                            <li
-                            key={review._id}
-                            className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
-                            >
-                                <h3 className="font-semibold">{review.albumTitle}</h3>
-                                <p className="text-yellow-500">⭐ {review.rating}/5</p>
-                                <p className="text-gray-700 mt-1">{review.text}</p>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </section>
+                    </div>
+                );
+                })}
+            </div>
+            )}
+        </section>
         </div>
     );
 }
