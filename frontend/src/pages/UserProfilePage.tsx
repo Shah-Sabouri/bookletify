@@ -18,6 +18,9 @@ interface Review {
     rating: number;
     comment?: string;
     text?: string;
+    title?: string;
+    artist?: string;
+    coverUrl?: string;
 }
 
 export default function UserProfilePage() {
@@ -27,6 +30,9 @@ export default function UserProfilePage() {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [favoritesVisible, setFavoritesVisible] = useState(true);
+    const [reviewsVisible, setReviewsVisible] = useState(true);
+    const [profileImage, setProfileImage] = useState<string | null>(null);
 
     useEffect(() => {
         if (!token) {
@@ -44,7 +50,7 @@ export default function UserProfilePage() {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
                 ]);
-                
+
                 if (!favRes.ok || !revRes.ok) {
                     throw new Error("Failed to fetch user data");
                 }
@@ -64,81 +70,270 @@ export default function UserProfilePage() {
         fetchUserData();
     }, [user, token, navigate]);
 
-    if (loading) return <div className="text-center mt-10">Loading...</div>;
-    if (error) return <div className="text-center text-red-500 mt-10">{error}</div>;
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => setProfileImage(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    };
+
+    if (loading) return <div style={{ textAlign: "center", marginTop: "40px" }}>Loading...</div>;
+    if (error) return <div style={{ textAlign: "center", color: "red", marginTop: "40px" }}>{error}</div>;
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
-        {/* USER INFO */}
-        <div className="flex flex-col items-center md:items-start mb-8 border-b border-gray-300 pb-6">
-            <h1 className="text-3xl font-bold mb-2">{user?.username}</h1>
-            <p className="text-gray-600">{user?.email}</p>
-        </div>
-
-        {/* FAVORITES */}
-        <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">Favorites</h2>
-            {favorites.length === 0 ? (
-                <p className="text-gray-500">No favorites yet.</p>
-            ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                {favorites.map((fav) => (
+        <div
+            style={{
+                display: "flex",
+                flexWrap: "wrap",
+                maxWidth: "1200px",
+                margin: "0 auto",
+                padding: "20px",
+                gap: "40px",
+                alignItems: "flex-start",
+            }}
+        >
+            {/* LEFT COLUMN — USER INFO */}
+            <aside
+                style={{
+                    flex: "0 0 250px",
+                    borderRight: "1px solid #ddd",
+                    paddingRight: "20px",
+                    minWidth: "230px",
+                }}
+            >
                 <div
-                    key={fav._id}
-                    onClick={() => navigate(`/album/${fav.albumId}`)}
-                    className="cursor-pointer"
-                >
-                    <AlbumCard
-                    album={{
-                        master_id: Number(fav.albumId),
-                        title: fav.title || "View album",
-                        artist: fav.artist || "Unknown Artist",
-                        cover_image: fav.coverUrl || "",
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        textAlign: "center",
                     }}
+                >
+                    <label htmlFor="profile-upload" style={{ cursor: "pointer" }} title="Upload profile picture">
+                        <div
+                            style={{
+                                width: "100px",
+                                height: "100px",
+                                borderRadius: "50%",
+                                backgroundColor: "#eee",
+                                overflow: "hidden",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "36px",
+                                fontWeight: "bold",
+                                color: "#888",
+                                marginBottom: "15px",
+                            }}
+                        >
+                            {profileImage ? (
+                                <img
+                                    src={profileImage}
+                                    alt="Profile"
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                />
+                            ) : (
+                                user?.username?.[0]?.toUpperCase() || "U"
+                            )}
+                        </div>
+                    </label>
+                    <input
+                        id="profile-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        style={{ display: "none" }}
                     />
+                    <h1 style={{ fontSize: "22px", fontWeight: "bold", marginBottom: "5px" }}>{user?.username}</h1>
+                    <p style={{ color: "#666", fontSize: "14px" }}>{user?.email}</p>
                 </div>
-                ))}
-            </div>
-            )}
-        </section>
+            </aside>
 
-        {/* REVIEWS */}
-        <section>
-            <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
-            {reviews.length === 0 ? (
-            <p className="text-gray-500">No reviews written yet.</p>
-            ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {reviews.map((review) => {
-                const albumId = review.albumId || review.album_id;
-                return (
+            {/* RIGHT COLUMN — FAVORITES & REVIEWS */}
+            <main style={{ flex: 1, minWidth: "300px" }}>
+                {/* FAVORITES */}
+                <section style={{ marginBottom: "40px" }}>
                     <div
-                    key={review._id}
-                    onClick={() => navigate(`/album/${albumId}`)}
-                    className="cursor-pointer border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
-                    >
-                    <AlbumCard
-                        album={{
-                        master_id: Number(albumId),
-                        title: "Album Review",
-                        artist: "Unknown Artist",
-                        cover_image: "",
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "10px",
                         }}
-                    />
-                    <div className="mt-3">
-                        <p className="text-yellow-500 font-medium">
-                        ⭐ {review.rating}/5
-                        </p>
-                        <p className="text-gray-700 mt-1 text-sm">
-                        {review.comment || review.text || "No comment provided"}
-                        </p>
+                    >
+                        <h2 style={{ fontSize: "22px" }}>Favorites</h2>
+                        <button
+                            onClick={() => setFavoritesVisible(!favoritesVisible)}
+                            style={{
+                                background: "none",
+                                border: "none",
+                                fontSize: "18px",
+                                cursor: "pointer",
+                                transition: "transform 0.2s ease",
+                                transform: favoritesVisible ? "rotate(0deg)" : "rotate(-90deg)",
+                            }}
+                        >
+                            ⌄
+                        </button>
                     </div>
+
+                    <div
+                        style={{
+                            maxHeight: favoritesVisible ? "1000px" : "0",
+                            opacity: favoritesVisible ? 1 : 0,
+                            overflow: "hidden",
+                            transition: "all 0.4s ease",
+                        }}
+                    >
+                        {favorites.length === 0 ? (
+                            <p style={{ color: "#666" }}>No favorites yet.</p>
+                        ) : (
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+                                    gap: "20px",
+                                }}
+                            >
+                                {favorites.map((fav) => (
+                                    <div
+                                        key={fav._id}
+                                        onClick={() => navigate(`/album/${fav.albumId}`)}
+                                        style={{
+                                            cursor: "pointer",
+                                            borderRadius: "10px",
+                                        }}
+                                    >
+                                        <AlbumCard
+                                            album={{
+                                                master_id: Number(fav.albumId),
+                                                title: fav.title || "View album",
+                                                artist: fav.artist || "Unknown Artist",
+                                                cover_image: fav.coverUrl || "",
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                );
-                })}
-            </div>
-            )}
-        </section>
+                </section>
+
+                {/* REVIEWS */}
+                <section>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "10px",
+                        }}
+                    >
+                        <h2 style={{ fontSize: "22px" }}>Reviews</h2>
+                        <button
+                            onClick={() => setReviewsVisible(!reviewsVisible)}
+                            style={{
+                                background: "none",
+                                border: "none",
+                                fontSize: "18px",
+                                cursor: "pointer",
+                                transition: "transform 0.2s ease",
+                                transform: reviewsVisible ? "rotate(0deg)" : "rotate(-90deg)",
+                            }}
+                        >
+                            ⌄
+                        </button>
+                    </div>
+
+                    <div
+                        style={{
+                            maxHeight: reviewsVisible ? "2000px" : "0",
+                            opacity: reviewsVisible ? 1 : 0,
+                            overflow: "hidden",
+                            transition: "all 0.4s ease",
+                        }}
+                    >
+                        {reviews.length === 0 ? (
+                            <p style={{ color: "#666" }}>No reviews written yet.</p>
+                        ) : (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                                {reviews.map((review) => {
+                                    const albumId = review.albumId || review.album_id;
+                                    return (
+                                        <div
+                                            key={review._id}
+                                            onClick={() => navigate(`/album/${albumId}`)}
+                                            style={{
+                                                display: "flex",
+                                                flexWrap: "wrap",
+                                                alignItems: "flex-start",
+                                                gap: "15px",
+                                                border: "1px solid #ddd",
+                                                borderRadius: "10px",
+                                                padding: "15px",
+                                                cursor: "pointer",
+                                                transition: "box-shadow 0.2s ease",
+                                            }}
+                                            onMouseEnter={(e) =>
+                                                ((e.currentTarget.style.boxShadow =
+                                                    "0 2px 10px rgba(0,0,0,0.1)"))
+                                            }
+                                            onMouseLeave={(e) =>
+                                                ((e.currentTarget.style.boxShadow = "none"))
+                                            }
+                                        >
+                                            <img
+                                                src={review.coverUrl || "https://via.placeholder.com/100"}
+                                                alt={review.title || "Album Cover"}
+                                                style={{
+                                                    width: "100px",
+                                                    height: "100px",
+                                                    borderRadius: "8px",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+                                            <div style={{ flex: 1 }}>
+                                                <h3
+                                                    style={{
+                                                        margin: "0 0 5px",
+                                                        fontSize: "18px",
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    {review.title || "Unknown Album"}
+                                                </h3>
+                                                <p style={{ margin: "0 0 8px", color: "#777" }}>
+                                                    {review.artist || "Unknown Artist"}
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        color: "#ffb400",
+                                                        fontWeight: 600,
+                                                        marginBottom: "5px",
+                                                    }}
+                                                >
+                                                    ⭐ {review.rating}/5
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        color: "#333",
+                                                        fontSize: "14px",
+                                                        lineHeight: "1.5",
+                                                    }}
+                                                >
+                                                    {review.comment || review.text || "No comment provided."}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                </section>
+            </main>
         </div>
     );
 }
