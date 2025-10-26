@@ -37,7 +37,12 @@ const AlbumDetailPage: React.FC = () => {
     const handleAddFavorite = async () => {
         if (!album) return;
         try {
-            await addToFavorites(album.master_id.toString());
+            await addToFavorites({
+                albumId: album.master_id.toString(),
+                title: album.title,
+                artist: album.artist || "Unknown Artist",
+                coverUrl: album.cover_image || "",
+            });
             alert("Added to favorites!");
         } catch (err) {
             console.error(err);
