@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import AuthPage from "./pages/AuthPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import Navbar from "./components/Navbar";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const NotFoundPage = () => <h2>404 - Page Not Found</h2>;
 
@@ -20,6 +21,7 @@ function AppContent() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/album/:id" element={<AlbumDetailPage />} />
+        <Route path="/search" element={<SearchResultsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
