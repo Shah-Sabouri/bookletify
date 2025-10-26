@@ -1,61 +1,13 @@
-import React, { useState } from "react";
-import { discogsApi } from "../services/discogsApi";
-import AlbumCard from "../components/AlbumCard";
-import type { Album } from "../types/album";
+import React from "react";
 
 const HomePage: React.FC = () => {
-    const [query, setQuery] = useState("");
-    const [results, setResults] = useState<Album[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-
-    const handleSearch = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!query) return;
-
-        setLoading(true);
-        setError("");
-        setResults([]);
-
-        try {
-            const albums: Album[] = await discogsApi.searchAlbums(query);
-            setResults(albums);
-        } catch (err: unknown) {
-            console.error(err);
-            setError("Failed to fetch albums. Try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Bookletify 🎵</h1>
-            <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
-                <input
-                type="text"
-                placeholder="Search artist..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                style={{ padding: "8px", width: "250px" }}
-                />
-                <button type="submit" style={{ padding: "8px", marginLeft: "5px" }}>
-                    Search
-                </button>
-            </form>
-
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            {!loading && !error && results.length === 0 && query && (
-                <p>No results found for "{query}".</p>
-            )}
-
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {results.map((album) => (
-                    <AlbumCard key={album.master_id} album={album} />
-                ))}
-            </div>
+        <div style={{ padding: "40px", textAlign: "center" }}>
+            <h1 style={{ fontSize: "2.5rem", marginBottom: "20px" }}>Welcome to Bookletify 🎶</h1>
+            <p style={{ fontSize: "1.2rem", color: "#555", maxWidth: "600px", margin: "0 auto" }}>
+                Discover and review your favorite albums.  
+                Use the search bar above to explore artists, albums, and classics from the music world.
+            </p>
         </div>
     );
 };
