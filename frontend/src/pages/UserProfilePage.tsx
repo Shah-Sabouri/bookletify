@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/useAuth";
 import AlbumCard from "../components/AlbumCard";
 import { useNavigate } from "react-router-dom";
+import { discogsApi } from "../services/discogsApi";
+import { removeFromFavorites } from "../services/favoritesApi";
 
 interface Favorite {
     _id: string;
@@ -33,6 +35,12 @@ export default function UserProfilePage() {
     const [favoritesVisible, setFavoritesVisible] = useState(true);
     const [reviewsVisible, setReviewsVisible] = useState(true);
     const [profileImage, setProfileImage] = useState<string | null>(null);
+    const [toast, setToast] = useState<string | null>(null);
+
+    const showToast = (msg: string) => {
+        setToast(msg);
+        setTimeout(() => setToast(null), 2500);
+    };
 
     useEffect(() => {
         if (!token) {
@@ -51,15 +59,60 @@ export default function UserProfilePage() {
                     }),
                 ]);
 
-                if (!favRes.ok || !revRes.ok) {
-                    throw new Error("Failed to fetch user data");
-                }
+                if (!favRes.ok || !revRes.ok) throw new Error("Failed to fetch user data");
 
                 const favData = await favRes.json();
                 const revData = await revRes.json();
 
-                setFavorites(favData);
-                setReviews(revData);
+                // --- Build list of IDs we need details for (only missing/unknown ones) ---
+                const idsToFetch = [
+                    ...favData
+                        .filter((f: Favorite) => !f.title || !f.artist || f.artist === "Unknown Artist")
+                        .map((f: Favorite) => f.albumId),
+                    ...revData.map((r: Review) => r.albumId || r.album_id),
+                ].filter(Boolean);
+
+                const uniqueIds = [...new Set(idsToFetch)];
+                const albumDetails: Record<string, { title: string; artist: string; coverUrl: string }> = {};
+
+                // fetch details only for unique ids
+                for (const id of uniqueIds) {
+                    try {
+                        const album = await discogsApi.getAlbumById(id);
+                        albumDetails[id] = {
+                            title: album.title || "Unknown Album",
+                            artist: album.artist || "Unknown Artist",
+                            coverUrl: album.cover_image || "",
+                        };
+                    } catch {
+                        albumDetails[id] = {
+                            title: "Unknown Album",
+                            artist: "Unknown Artist",
+                            coverUrl: "",
+                        };
+                    }
+                }
+
+                // enrich favorites & reviews with fetched details (if missing)
+                const enrichedFavs = favData.map((f: Favorite) => ({
+                    ...f,
+                    title: f.title || albumDetails[f.albumId]?.title || "Unknown Album",
+                    artist: f.artist || albumDetails[f.albumId]?.artist || "Unknown Artist",
+                    coverUrl: f.coverUrl || albumDetails[f.albumId]?.coverUrl || "",
+                }));
+
+                const enrichedRevs = revData.map((r: Review) => {
+                    const id = r.albumId || r.album_id;
+                    return {
+                        ...r,
+                        title: r.title || albumDetails[id!]?.title || "Unknown Album",
+                        artist: r.artist || albumDetails[id!]?.artist || "Unknown Artist",
+                        coverUrl: r.coverUrl || albumDetails[id!]?.coverUrl || "",
+                    };
+                });
+
+                setFavorites(enrichedFavs);
+                setReviews(enrichedRevs);
             } catch {
                 setError("Could not load profile data");
             } finally {
@@ -69,6 +122,17 @@ export default function UserProfilePage() {
 
         fetchUserData();
     }, [user, token, navigate]);
+
+    const handleRemoveFavorite = async (albumId: string) => {
+        try {
+            await removeFromFavorites(albumId);
+            setFavorites((prev) => prev.filter((f) => f.albumId !== albumId));
+            showToast("❌ Removed from favorites");
+        } catch (err) {
+            console.error(err);
+            showToast("⚠️ Failed to remove favorite");
+        }
+    };
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -92,8 +156,29 @@ export default function UserProfilePage() {
                 padding: "20px",
                 gap: "40px",
                 alignItems: "flex-start",
+                position: "relative",
             }}
         >
+            {/* 🔔 Toast Notification (fixed under navbar) */}
+            {toast && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: "80px",
+                        right: "20px",
+                        background: "#333",
+                        color: "#fff",
+                        padding: "10px 15px",
+                        borderRadius: "8px",
+                        opacity: 0.95,
+                        zIndex: 1000,
+                        transition: "opacity 0.3s ease",
+                    }}
+                >
+                    {toast}
+                </div>
+            )}
+
             {/* LEFT COLUMN — USER INFO */}
             <aside
                 style={{
@@ -171,8 +256,8 @@ export default function UserProfilePage() {
                                 border: "none",
                                 fontSize: "18px",
                                 cursor: "pointer",
-                                transition: "transform 0.2s ease",
                                 transform: favoritesVisible ? "rotate(0deg)" : "rotate(-90deg)",
+                                transition: "transform 0.2s ease",
                             }}
                         >
                             ⌄
@@ -200,20 +285,45 @@ export default function UserProfilePage() {
                                 {favorites.map((fav) => (
                                     <div
                                         key={fav._id}
-                                        onClick={() => navigate(`/album/${fav.albumId}`)}
                                         style={{
+                                            position: "relative",
                                             cursor: "pointer",
                                             borderRadius: "10px",
                                         }}
                                     >
-                                        <AlbumCard
-                                            album={{
-                                                master_id: Number(fav.albumId),
-                                                title: fav.title || "View album",
-                                                artist: fav.artist || "Unknown Artist",
-                                                cover_image: fav.coverUrl || "",
+                                        {/* ❌ REMOVE FAVORITE (stop propagation so click doesn't open album) */}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleRemoveFavorite(fav.albumId);
                                             }}
-                                        />
+                                            style={{
+                                                position: "absolute",
+                                                top: "20px",
+                                                left: "20px",
+                                                background: "#ff4d4f",
+                                                border: "none",
+                                                borderRadius: "6px",
+                                                color: "#fff",
+                                                fontSize: "12px",
+                                                padding: "4px 6px",
+                                                cursor: "pointer",
+                                                zIndex: 3,
+                                            }}
+                                            title="Remove favorite"
+                                        >
+                                            ✕
+                                        </button>
+
+                                        <div onClick={() => navigate(`/album/${fav.albumId}`)}>
+                                            <AlbumCard
+                                                album={{
+                                                    master_id: Number(fav.albumId),
+                                                    title: fav.title || "Unknown Album",
+                                                    cover_image: fav.coverUrl || "",
+                                                } as any}
+                                            />
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -239,8 +349,8 @@ export default function UserProfilePage() {
                                 border: "none",
                                 fontSize: "18px",
                                 cursor: "pointer",
-                                transition: "transform 0.2s ease",
                                 transform: reviewsVisible ? "rotate(0deg)" : "rotate(-90deg)",
+                                transition: "transform 0.2s ease",
                             }}
                         >
                             ⌄
@@ -274,15 +384,7 @@ export default function UserProfilePage() {
                                                 borderRadius: "10px",
                                                 padding: "15px",
                                                 cursor: "pointer",
-                                                transition: "box-shadow 0.2s ease",
                                             }}
-                                            onMouseEnter={(e) =>
-                                                ((e.currentTarget.style.boxShadow =
-                                                    "0 2px 10px rgba(0,0,0,0.1)"))
-                                            }
-                                            onMouseLeave={(e) =>
-                                                ((e.currentTarget.style.boxShadow = "none"))
-                                            }
                                         >
                                             <img
                                                 src={review.coverUrl || "https://via.placeholder.com/100"}
@@ -295,34 +397,16 @@ export default function UserProfilePage() {
                                                 }}
                                             />
                                             <div style={{ flex: 1 }}>
-                                                <h3
-                                                    style={{
-                                                        margin: "0 0 5px",
-                                                        fontSize: "18px",
-                                                        fontWeight: "bold",
-                                                    }}
-                                                >
+                                                <h3 style={{ margin: "0 0 5px", fontSize: "18px", fontWeight: "bold" }}>
                                                     {review.title || "Unknown Album"}
                                                 </h3>
                                                 <p style={{ margin: "0 0 8px", color: "#777" }}>
                                                     {review.artist || "Unknown Artist"}
                                                 </p>
-                                                <p
-                                                    style={{
-                                                        color: "#ffb400",
-                                                        fontWeight: 600,
-                                                        marginBottom: "5px",
-                                                    }}
-                                                >
+                                                <p style={{ color: "#ffb400", fontWeight: 600, marginBottom: "5px" }}>
                                                     ⭐ {review.rating}/5
                                                 </p>
-                                                <p
-                                                    style={{
-                                                        color: "#333",
-                                                        fontSize: "14px",
-                                                        lineHeight: "1.5",
-                                                    }}
-                                                >
+                                                <p style={{ color: "#333", fontSize: "14px", lineHeight: "1.5" }}>
                                                     {review.comment || review.text || "No comment provided."}
                                                 </p>
                                             </div>
