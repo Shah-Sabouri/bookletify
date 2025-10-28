@@ -5,6 +5,7 @@ import discogsRoutes from "./routes/discogs.routes";
 import authRoutes from "./routes/auth.routes";
 import reviewRoutes from "./routes/review.routes";
 import favoriteRoutes from "./routes/favorite.routes";
+import adminRoutes from "./routes/admin.routes";
 import cors from "cors";
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use("/api", discogsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/favorites", favoriteRoutes);
+app.use("/api/adminn", adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 connectDB().then(() => {
