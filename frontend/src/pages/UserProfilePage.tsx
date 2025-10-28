@@ -4,6 +4,7 @@ import AlbumCard from "../components/AlbumCard";
 import { useNavigate } from "react-router-dom";
 import { discogsApi } from "../services/discogsApi";
 import { removeFromFavorites } from "../services/favoritesApi";
+import { reviewsApi } from "../services/reviewsApi";
 
 interface Favorite {
     _id: string;
@@ -386,6 +387,27 @@ export default function UserProfilePage() {
                                                 cursor: "pointer",
                                             }}
                                         >
+                                            {/* ❌ REMOVE REVIEW */}
+                                            <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                reviewsApi.deleteReview(review._id);
+                                                setReviews((prev) => prev.filter((r) => r._id !== review._id));
+                                            }}
+                                            style={{
+                                                position: "absolute",
+                                                right: "30px",
+                                                background: "#ddd",
+                                                border: "none",
+                                                borderRadius: "4px",
+                                                color: "#fff",
+                                                fontSize: "14px",
+                                                cursor: "pointer",
+                                                lineHeight: "20px",
+                                                zIndex: 50
+                                            }}
+                                            > 🗑️
+                                            </button>
                                             <img
                                                 src={review.coverUrl || "https://via.placeholder.com/100"}
                                                 alt={review.title || "Album Cover"}

@@ -9,4 +9,8 @@ export const reviewsApi = {
         const res = await axiosClient.post("/reviews", { albumId, comment, rating });
         return res.data;
     },
+    deleteReview: async (reviewId: string) => {
+        const res = await axiosClient.delete(`/reviews/${reviewId}`);
+        return res.data;
+    }
 };
