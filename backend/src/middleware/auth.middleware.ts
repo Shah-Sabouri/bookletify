@@ -12,18 +12,23 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
     try {
         const secret = process.env.JWT_SECRET!;
-        const decoded = jwt.verify(token, secret) as { id: string };
+        const decoded = jwt.verify(token, secret) as { id: string; role: string };
 
+        // Fetch full user (without password)
         const user = await User.findById(decoded.id).select("-password");
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
 
+        // Attach both id & role to request
+        (req as any).user = {
+            id: user._id,
+            role: user.role,
+        };
 
-        (req as any).user = decoded; // Makes user accessible for next middleware
         next();
     } catch (err) {
         console.error("JWT verification failed:", err);
-        return res.status(401).json({ error: "Invalid/expired token"});
+        return res.status(401).json({ error: "Invalid/expired token" });
     }
 };

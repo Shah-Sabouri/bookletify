@@ -20,15 +20,28 @@ export const login = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
         if (!username || !password) {
-            return res.status(400).json({ error: "Missing email or password" });
+            return res.status(400).json({ error: "Missing username or password" });
         }
 
-        const result = await loginUser(username, password);
-        return res.json(result);
+        // Call service
+        const { token, user } = await loginUser(username, password);
+
+        return res.json({
+            message: "Login successful",
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role // To be sent to frontend
+            }
+        });
+
     } catch (err: any) {
         return res.status(400).json({ error: err.message });
     }
 };
+
 
 export const getProfile = async (req: Request, res: Response) => {
     try {
