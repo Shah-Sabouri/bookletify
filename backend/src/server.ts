@@ -24,7 +24,7 @@ app.use("/api", discogsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/favorites", favoriteRoutes);
-app.use("/api/adminn", adminRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 connectDB().then(() => {

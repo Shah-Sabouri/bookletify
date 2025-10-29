@@ -1,0 +1,1 @@
+{"message":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDIxZjk0NWZkZmY4MTAyMTMxZjA0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MTc0NzE5OCwiZXhwIjoxNzYxODMzNTk4fQ.zof-aI5ElPt1KLK7jsUwjtAi4dj4ZfUGOkN9vHH3fco","user":{"id":"69021f945fdff8102131f04a","username":"admin","email":"admin@admin.com","role":"admin"}}
