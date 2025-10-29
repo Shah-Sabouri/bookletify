@@ -6,6 +6,7 @@ const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [query, setQuery] = useState("");
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -17,63 +18,116 @@ const Navbar: React.FC = () => {
         if (!query.trim()) return;
         navigate(`/search?q=${encodeURIComponent(query.trim())}`);
         setQuery("");
+        setMenuOpen(false);
     };
+
+    const userDashboardLink = user?.role === "admin" ? "/admin" : "/profile";
 
     return (
         <nav style={{
-            padding: "10px 20px",
+            padding: "12px 20px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             borderBottom: "1px solid #ccc",
-        }}
-        >
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-            <Link to="/" style={{ fontWeight: "bold", fontSize: "18px" }}>
-            🎵 Bookletify
+            background: "#fff",
+            position: "sticky",
+            top: 0,
+            zIndex: 999
+        }}>
+            
+            {/* Logo */}
+            <Link to="/" style={{ fontWeight: "bold", fontSize: "20px" }}>
+                🎵 Bookletify
             </Link>
 
-            <form onSubmit={handleSearch} style={{ display: "flex", gap: "8px" }}>
-                <input
-                type="text"
-                placeholder="Search for albums..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                style={{
-                    padding: "6px 10px",
-                    borderRadius: "5px",
-                    border: "1px solid #aaa",
-                    width: "200px",
-                }}
-            />
+            {/* Hamburger (mobile) */}
             <button
-                type="submit"
+                onClick={() => setMenuOpen(!menuOpen)}
                 style={{
-                    padding: "6px 12px",
-                    backgroundColor: "#facc15",
+                    fontSize: "22px",
+                    background: "none",
                     border: "none",
-                    borderRadius: "5px",
                     cursor: "pointer",
+                    display: window.innerWidth <= 600 ? "block" : "none",
                 }}
             >
-                Search
+                ☰
             </button>
-            </form>
-        </div>
 
-        <div>
-            {user ? (
-            <>
-                <span style={{ marginRight: "15px" }}>Hello, {user.username}</span>
-                <Link to="/profile" style={{ marginRight: "15px" }}>
-                Profile
-                </Link>
-                <button onClick={handleLogout}>Log out</button>
-            </>
-            ) : (
-            <Link to="/auth">Login / Register</Link>
-            )}
-        </div>
+            {/* Desktop + Mobile Menu */}
+            <div
+                style={{
+                    display: window.innerWidth <= 600
+                        ? (menuOpen ? "block" : "none")
+                        : "flex",
+                    alignItems: "center",
+                    gap: "15px",
+                    width: window.innerWidth <= 600 ? "100%" : "auto",
+                    marginTop: window.innerWidth <= 600 ? "10px" : 0
+                }}
+            >
+                {/* Search */}
+                <form
+                    onSubmit={handleSearch}
+                    style={{
+                        display: "flex",
+                        gap: "8px",
+                        width: window.innerWidth <= 600 ? "100%" : "auto"
+                    }}
+                >
+                    <input
+                        type="text"
+                        placeholder="Search albums..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        style={{
+                            padding: "6px 10px",
+                            borderRadius: "5px",
+                            border: "1px solid #aaa",
+                            width: window.innerWidth <= 600 ? "100%" : "200px",
+                        }}
+                    />
+                    <button
+                        type="submit"
+                        style={{
+                            padding: "6px 10px",
+                            backgroundColor: "#facc15",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            fontSize: "18px"
+                        }}
+                    >
+                        🔍
+                    </button>
+                </form>
+
+                {/* Auth & User */}
+                {user ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span style={{ marginRight: "6px" }}>Hello,</span>
+                        <Link 
+                            to={userDashboardLink} 
+                            style={{ 
+                                fontWeight: "700",
+                                textDecoration: "underline",
+                                textUnderlineOffset: "3px"
+                            }}
+                        >
+                            {user.username}
+                        </Link>
+                        <button
+                            onClick={handleLogout}
+                            style={{ cursor: "pointer", background: "none", border: "none", color: "red" }}
+                        >
+                            Log out
+                        </button>
+                    </div>
+                ) : (
+                    <Link to="/auth">Login / Register</Link>
+                )}
+            </div>
         </nav>
     );
 };
