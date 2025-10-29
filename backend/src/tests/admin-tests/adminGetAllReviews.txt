@@ -1,0 +1,1 @@
+[{"_id":"68ff4c220594a53bd7f122d9","albumId":"84819","userId":{"_id":"68f25cff8cb2c6617a66e504","username":"bla","email":"blabla@bla.se"},"comment":"GOAT","rating":5,"createdAt":"2025-10-27T10:40:34.693Z","updatedAt":"2025-10-27T10:40:34.693Z","__v":0}]

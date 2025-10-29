@@ -3,6 +3,18 @@ import { User } from "../models/user.model";
 import { Review } from "../models/review.model";
 import { Favorite } from "../models/favorite.model";
 
+export const getAllReviewsAdmin = async (req: Request, res: Response) => {
+    try {
+        const reviews = await Review.find()
+        .populate("userId", "username email")
+        .lean();
+        
+        return res.json(reviews);
+    } catch (err: any) {
+        return res.status(500).json({error: err.message});
+    }
+};
+
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const userId = req.params.id;

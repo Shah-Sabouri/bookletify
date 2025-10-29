@@ -2,7 +2,7 @@ import express from "express";
 import { authenticateToken } from "../middleware/auth.middleware";
 import { requireAdmin } from "../middleware/admin.middleware";
 import { User } from "../models/user.model";
-import { deleteUser } from "../controllers/admin.controller";
+import { deleteUser, getAllReviewsAdmin } from "../controllers/admin.controller";
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.get("/users", authenticateToken, requireAdmin, async (req, res) => {
     const users = await User.find().select("-password");
     res.json(users);
 });
+
+// GET ALL REVIEWS (ADMIN ONLY)
+router.get("/reviews", authenticateToken, requireAdmin, getAllReviewsAdmin)
 
 // UPDATE USER ROLE
 router.put("/users/:id/role", authenticateToken, requireAdmin, async (req, res) => {
