@@ -2,6 +2,7 @@ import express from "express";
 import { authenticateToken } from "../middleware/auth.middleware";
 import { requireAdmin } from "../middleware/admin.middleware";
 import { User } from "../models/user.model";
+import { deleteUser } from "../controllers/admin.controller";
 
 const router = express.Router();
 
@@ -20,10 +21,7 @@ router.put("/users/:id/role", authenticateToken, requireAdmin, async (req, res) 
     res.json(user);
 });
 
-// DELETE USER
-router.delete("/users/:id", authenticateToken, requireAdmin, async (req, res) => {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: "User deleted" });
-});
+// DELETE USER + RELATED DATA
+router.delete("/users/:id", authenticateToken, requireAdmin, deleteUser);
 
 export default router;
