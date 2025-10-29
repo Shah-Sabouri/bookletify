@@ -1,0 +1,1 @@
+{"message":"User and all related data deleted","userId":"6902389210186cc0a45ab281"}
