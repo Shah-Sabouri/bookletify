@@ -123,17 +123,6 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleDeleteReview = async (id: string) => {
-        if (!window.confirm("Delete review?")) return;
-        try {
-        await axiosClient.delete(`/reviews/${id}`);
-        setReviews(prev => prev.filter(r => r._id !== id));
-        showToast("🗑️ Review deleted");
-        } catch {
-        showToast("❌ Failed to delete review");
-        }
-    };
-
     if (loading) return <div style={{ textAlign: "center", marginTop: 40 }}>Loading…</div>;
 
     return (
@@ -284,27 +273,6 @@ export default function AdminDashboard() {
                             position: "relative"
                         }}
                         >
-                        {/* DELETE */}
-                        <button
-                            onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteReview(r._id);
-                            }}
-                            style={{
-                            position: "absolute",
-                            right: 15,
-                            top: 15,
-                            background: "#ddd",
-                            border: "none",
-                            borderRadius: 4,
-                            cursor: "pointer",
-                            fontSize: 14,
-                            padding: "4px 6px"
-                            }}
-                        >
-                            🗑️
-                        </button>
-
                         {/* ALBUM COVER */}
                         <img
                             src={r.coverUrl || "https://via.placeholder.com/100"}
