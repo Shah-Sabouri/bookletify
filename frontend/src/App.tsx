@@ -22,6 +22,11 @@ function AppContent() {
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/album/:id" element={<AlbumDetailPage />} />
         <Route path="/search" element={<SearchResultsPage />} />
+{/*         <Route path="/admin" element={
+          <RequireAuth role="admin">
+            <AdminDashboard />
+          </RequireAuth>
+        }/> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
