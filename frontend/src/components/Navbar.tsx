@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
+import styles from "./Navbar.module.css";
 
 const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -15,6 +16,7 @@ const Navbar: React.FC = () => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (!query.trim()) return;
+
         navigate(`/search?q=${encodeURIComponent(query.trim())}`);
         setQuery("");
     };
@@ -22,118 +24,45 @@ const Navbar: React.FC = () => {
     const userDashboardLink = user?.role === "admin" ? "/admin" : "/profile";
 
     return (
-        <nav style={styles.nav}>
-            {/* TOP BAR: LOGO + USER */}
-            <div style={styles.topRow}>
-                <Link to="/" style={styles.logo}>
-                    🎵 Bookletify
+        <nav className={styles.nav}>
+            <div className={styles.left}>
+                <Link to="/" className={styles.logo}>
+                🎵 Bookletify
                 </Link>
-
-                {user ? (
-                    <div style={styles.userBox}>
-                        <span style={{ marginRight: "6px" }}>Hello,</span>
-                        <Link
-                            to={userDashboardLink}
-                            style={styles.username}
-                        >
-                            {user.username}
-                        </Link>
-                        <button onClick={handleLogout} style={styles.logout}>
-                            Log out
-                        </button>
-                    </div>
-                ) : (
-                    <Link to="/auth">Login / Register</Link>
-                )}
             </div>
-
-            {/* SEARCH BAR */}
-            <form onSubmit={handleSearch} style={styles.searchRow}>
-                <input
+            
+            <div className={styles.center}>
+                <form onSubmit={handleSearch} className={styles.searchForm}>
+                    <input
                     type="text"
-                    placeholder="Search albums…"
+                    placeholder="Search albums..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    style={styles.input}
+                    className={styles.searchInput}
                 />
-                <button type="submit" style={styles.searchBtn}>
-                    🔍
-                </button>
-            </form>
+                    <button type="submit" className={styles.searchBtn}>🔍</button>
+                </form>
+            </div>
+
+            <div className={styles.right}>
+                {user ? (
+                <>
+                    <span className={styles.hello}>Hello,</span>
+                    <Link to={userDashboardLink} className={styles.username}>
+                    {user.username}
+                    </Link>
+                    <button onClick={handleLogout} className={styles.logoutBtn}>
+                    Log out
+                    </button>
+                </>
+                ) : (
+                <Link to="/auth" className={styles.authLink}>
+                    Login / Register
+                </Link>
+                )}
+            </div>
         </nav>
     );
-};
-
-const styles: Record<string, React.CSSProperties> = {
-    nav: {
-        padding: "10px 20px",
-        borderBottom: "1px solid #ccc",
-        background: "#fff",
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-    },
-
-    topRow: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
-
-    logo: {
-        fontWeight: "bold",
-        fontSize: "20px",
-        textDecoration: "none",
-        color: "#000",
-    },
-
-    userBox: {
-        display: "flex",
-        alignItems: "center",
-        gap: "8px",
-    },
-
-    username: {
-        fontWeight: "700",
-        textDecoration: "underline",
-        textUnderlineOffset: "3px",
-    },
-
-    logout: {
-        cursor: "pointer",
-        background: "none",
-        border: "none",
-        color: "red",
-        fontWeight: "bold",
-    },
-
-    searchRow: {
-        display: "flex",
-        justifyContent: "center",
-        width: "100%",
-        gap: "8px",
-    },
-
-    input: {
-        padding: "6px 10px",
-        borderRadius: "5px",
-        border: "1px solid #aaa",
-        flex: 1,
-        maxWidth: "350px",
-        minWidth: "160px",
-    },
-
-    searchBtn: {
-        padding: "6px 10px",
-        backgroundColor: "#facc15",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "18px",
-    },
 };
 
 export default Navbar;
