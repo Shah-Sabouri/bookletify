@@ -120,6 +120,10 @@ export default function UserProfilePage() {
         };
 
         fetchUserData();
+        
+        const refresh = () => fetchUserData();
+        window.addEventListener("refreshReviews", refresh);
+        return () => window.removeEventListener("refreshReviews", refresh);
     }, [user, token, navigate]);
 
     const handleRemoveFavorite = async (albumId: string) => {

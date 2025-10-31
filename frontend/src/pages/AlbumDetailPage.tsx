@@ -5,6 +5,7 @@ import { addToFavorites, removeFromFavorites, getUserFavorites } from "../servic
 import ReviewsList from "../components/ReviewsList";
 import ReviewForm from "../components/ReviewForm";
 import type { Album, Track } from "../types/album";
+import { reviewsApi } from "../services/reviewsApi";
 
 interface Favorite {
     _id: string;
@@ -54,6 +55,12 @@ const AlbumDetailPage: React.FC = () => {
         setToast(message);
         setTimeout(() => setToast(null), 2500);
     };
+
+    const handleDeleteReview = async (reviewId: string) => {
+        await reviewsApi.deleteReview(reviewId);
+        window.dispatchEvent(new Event("refreshReviews"));
+        showToast("🗑️ Review deleted")
+    }
 
     const handleFavoriteToggle = async () => {
         if (!album) return;
@@ -175,7 +182,7 @@ const AlbumDetailPage: React.FC = () => {
             </button>
 
             <h3 style={{ marginTop: "30px" }}>Reviews</h3>
-            <ReviewsList albumId={id!} />
+            <ReviewsList albumId={id!} onDelete={handleDeleteReview} />
             <ReviewForm albumId={id!} />
         </div>
     );

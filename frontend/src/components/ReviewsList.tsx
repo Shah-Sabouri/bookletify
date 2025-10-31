@@ -4,6 +4,7 @@ import { useAuth } from "../context/useAuth";
 
 interface Props {
     albumId: string;
+    onDelete?: (reviewId: string) => void;
 }
 interface Review {
     _id: string;
