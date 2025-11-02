@@ -156,23 +156,15 @@ export default function UserProfilePage() {
     
     return (
     <div className={styles.container}>
-        <button
-        onClick={handleGoBack}
-        style={{
-            position: "relative",
-            background: "none",
-            border: "none",
-            color: "#007bff",
-            cursor: "pointer",
-            fontSize: "16px",
-            marginBottom: "20px",
-        }}
-        >
-            ← Go Back
-        </button>
-
         {toast && <div className={styles.toast}>{toast}</div>}
 
+        <div className={styles.topBar}>
+            <button
+            onClick={handleGoBack}
+            className={styles.goBackBtn}>
+                ← Go Back</button>
+        </div>
+        
         <aside className={styles.sidebar}>
             <div className={styles.profileBox}>
                 <label htmlFor="profile-upload" title="Upload profile picture">

@@ -176,3 +176,18 @@
     font-weight: 600;
     margin-bottom: 5px;
 }
+
+.topBar {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.goBackBtn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+}
+
