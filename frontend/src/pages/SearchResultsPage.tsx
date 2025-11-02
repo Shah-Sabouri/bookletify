@@ -14,6 +14,11 @@ export default function SearchResultsPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const handleGoBack = () => {
+        if (window.history.state && window.history.state.idx > 0) navigate(-1);
+        else navigate("/");
+    };
+
     useEffect(() => {
         if (!query) return;
         
@@ -44,6 +49,20 @@ export default function SearchResultsPage() {
     
     return (
     <div className={styles.container}>
+        <button
+        onClick={handleGoBack}
+        style={{
+            background: "none",
+            border: "none",
+            color: "#007bff",
+            cursor: "pointer",
+            fontSize: "16px",
+            marginBottom: "20px",
+        }}
+        >
+            ← Go Back
+        </button>
+
         <h2 className={styles.heading}>
             Search results for: “{query}”
         </h2>
