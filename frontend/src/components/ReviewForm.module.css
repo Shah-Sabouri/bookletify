@@ -1,0 +1,40 @@
+.form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.select {
+    margin-left: 8px;
+}
+
+.textarea {
+    width: 300px;
+    height: 80px;
+    margin-top: 8px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.button {
+    margin-top: 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.button:hover {
+    background-color: #444;
+}

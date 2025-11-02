@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { reviewsApi } from "../services/reviewsApi";
+import styles from "./ReviewForm.module.css";
 
 interface Props {
     albumId: string;
@@ -7,7 +8,7 @@ interface Props {
 
 const ReviewForm: React.FC<Props> = ({ albumId }) => {
     const [comment, setComment] = useState("");
-    const [rating, setRating] = useState(5); // Default 5/5
+    const [rating, setRating] = useState(5);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,7 +18,7 @@ const ReviewForm: React.FC<Props> = ({ albumId }) => {
             await reviewsApi.postReview(albumId, comment, rating);
             setComment("");
             setRating(5);
-            window.location.reload(); // refresh to show new review
+            window.location.reload();
         } catch (err) {
             console.error(err);
             alert("Failed to post review.");
@@ -25,31 +26,30 @@ const ReviewForm: React.FC<Props> = ({ albumId }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-            <label>
+        <form onSubmit={handleSubmit} className={styles.form}>
+            <label className={styles.label}>
                 Rating:
                 <select
                 value={rating}
                 onChange={(e) => setRating(Number(e.target.value))}
-                style={{ marginLeft: "8px" }}
+                className={styles.select}
                 >
-                {[1, 2, 3, 4, 5].map((num) => (
-                    <option key={num} value={num}>
-                    {num}
-                    </option>
-                ))}
+                    {[1, 2, 3, 4, 5].map((num) => (
+                        <option key={num} value={num}>
+                            {num}
+                        </option>
+                    ))}
                 </select>
-            </label>
-            
-            <br />
-            <textarea
-                placeholder="Write your review..."
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                style={{ width: "300px", height: "80px", marginTop: "8px" }}
-            />
-            <br />
-            <button type="submit" style={{ marginTop: "5px" }}>
+        </label>
+
+        <textarea
+        placeholder="Write your review..."
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        className={styles.textarea}
+        />
+
+            <button type="submit" className={styles.button}>
                 Post Review
             </button>
         </form>
