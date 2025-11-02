@@ -82,7 +82,7 @@ export default function UserProfilePage() {
                         const album = await discogsApi.getAlbumById(id);
                         albumDetails[id] = {
                             title: album.title || "Unknown Album",
-                            artist: album.artist,
+                            artist: album.artist || "",
                             coverUrl: album.cover_image || "",
                         };
                     } catch {
