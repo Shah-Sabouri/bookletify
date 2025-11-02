@@ -69,7 +69,7 @@ export default function UserProfilePage() {
 
             const idsToFetch = [
                 ...favData
-                .filter((f: Favorite) => !f.title || !f.artist || f.artist === "Unknown Artist")
+                .filter((f: Favorite) => !f.title || !f.artist)
                 .map((f: Favorite) => f.albumId),
                 ...revData.map((r: Review) => r.albumId || r.album_id),
                 ].filter(Boolean);
@@ -82,7 +82,7 @@ export default function UserProfilePage() {
                         const album = await discogsApi.getAlbumById(id);
                         albumDetails[id] = {
                             title: album.title || "Unknown Album",
-                            artist: album.artist || "Unknown Artist",
+                            artist: album.artist,
                             coverUrl: album.cover_image || "",
                         };
                     } catch {
@@ -97,7 +97,7 @@ export default function UserProfilePage() {
                 const enrichedFavs = favData.map((f: Favorite) => ({
                     ...f,
                     title: f.title || albumDetails[f.albumId]?.title || "Unknown Album",
-                    artist: f.artist || albumDetails[f.albumId]?.artist || "Unknown Artist",
+                    artist: f.artist || albumDetails[f.albumId]?.artist,
                     coverUrl: f.coverUrl || albumDetails[f.albumId]?.coverUrl || "",
                 }));
 
@@ -106,7 +106,7 @@ export default function UserProfilePage() {
                     return {
                             ...r,
                             title: r.title || albumDetails[id!]?.title || "Unknown Album",
-                            artist: r.artist || albumDetails[id!]?.artist || "Unknown Artist",
+                            artist: r.artist || albumDetails[id!]?.artist,
                             coverUrl: r.coverUrl || albumDetails[id!]?.coverUrl || "",
                     };
                 });
@@ -287,7 +287,7 @@ export default function UserProfilePage() {
                             
                                     <div style={{ flex: 1 }}>
                                         <h3>{review.title || "Unknown Album"}</h3>
-                                        <p className={styles.grayText}>{review.artist || "Unknown Artist"}</p>
+                                        <p className={styles.grayText}>{review.artist}</p>
                                         <p className={styles.starRating}>⭐ {review.rating}/5</p>
                                         <p>{review.comment || review.text || "No comment provided."}</p>
                                     </div>
