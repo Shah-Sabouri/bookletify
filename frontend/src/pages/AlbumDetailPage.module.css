@@ -23,12 +23,20 @@
 }
 
 .cover {
-    width: 100%;
-    max-width: 300px;
+    width: 320px;
+    height: 320px;
     border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    object-fit: cover;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.cover:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
 
 .title {
     margin: 6px 0 14px;
@@ -109,10 +117,11 @@
 @media (max-width: 900px) {
     .layout {
         flex-direction: column;
-        gap: 30px;
+        gap: 20px;
     }
 
     .cover {
-        max-width: 100%;
+        width: 300px;
+        height: 300px;
     }
 }
