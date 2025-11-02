@@ -40,7 +40,7 @@ describe("Auth Service", () => {
     it("should login with correct credentials", async () => {
         await registerUser("Shahryar", "login@example.com", "password123");
 
-        const { user, token } = await loginUser("login@example.com", "password123");
+        const { user, token } = await loginUser("Shahryar", "password123");
 
         expect(user.email).toBe("login@example.com");
         expect(token).toBeDefined();
