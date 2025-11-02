@@ -1,0 +1,41 @@
+.cardLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Parent card container */
+.card {
+    border: 1px solid #ddd;
+    padding: 12px;
+    width: 200px;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.cover {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.title {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.meta {
+    margin: 0;
+    color: #555;
+    font-size: 13px;
+}
