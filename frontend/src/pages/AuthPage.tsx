@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { loginUser, registerUser } from "../services/authApi";
 import styles from "./AuthPage.module.css";
+import GoBackButton from "../components/GoBackButton";
 
 const AuthPage: React.FC = () => {
     const [loginUsername, setLoginUsername] = useState("");
@@ -45,6 +46,10 @@ const AuthPage: React.FC = () => {
     };
 
     return (
+        <>
+        <div style={{ marginTop: "20px", paddingLeft: "20px"}}>
+            <GoBackButton />
+        </div>
         <div className={styles.container}>
             {/* LOGIN */}
             <div className={styles.card}>
@@ -100,6 +105,7 @@ const AuthPage: React.FC = () => {
                 </form>
             </div>
         </div>
+        </>
     );
 };
 

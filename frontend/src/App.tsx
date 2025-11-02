@@ -12,12 +12,11 @@ import AdminDashboard from "./pages/AdminDashboard";
 const NotFoundPage = () => <h2>404 - Page Not Found</h2>;
 
 function AppContent() {
-  const location = useLocation();
-  const hideNavbar = location.pathname === "/auth"; //Navbar hidden on auth page
+  useLocation();
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
+      {<Navbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
