@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import RequireAuth from "./components/RequireAuth";
 import AdminDashboard from "./pages/AdminDashboard";
+import "./App.css";
+
 
 const NotFoundPage = () => <h2>404 - Page Not Found</h2>;
 

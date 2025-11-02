@@ -1,0 +1,95 @@
+/* ====== BOOKLETIFY GLOBAL THEME ====== */
+
+/* Smooth UI everywhere */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* App background */
+body {
+    background: #f7f8fa;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111;
+    line-height: 1.5;
+}
+
+/* Unified heading vibe */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.5px;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #0073ff;
+    transition: opacity .2s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Buttons (fallback global style) */
+button {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Inputs & textareas general baseline */
+input, select, textarea {
+    font-family: inherit;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #cdd4df;
+    background: #fff;
+    padding: 10px 12px;
+    transition: border .2s ease, box-shadow .2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74,144,226,0.4);
+}
+
+/* Card universal shadow */
+.card,
+.module-card,
+.section-box {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e2e5eb;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+/* Toast fallback */
+.toast-global {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #111;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    font-size: 14px;
+    z-index: 1000;
+}
+
+/* Nice page padding on big screens */
+.page {
+    padding: 20px;
+}
+
+@media (min-width: 1100px) {
+    .page {
+        padding: 40px 60px;
+    }
+}
