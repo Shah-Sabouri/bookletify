@@ -41,7 +41,7 @@ npm run test:discogs
 - Prevent duplicate favorites
 - Retrieve all favorites for a user
 - Remove a favorite successfully
-- Throw error when trying to remove a non-existent favorite
+- Return null when trying to remove a non-existent favorite
 
 **Run this test:**
 ```bash

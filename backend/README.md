@@ -76,7 +76,7 @@ curl -X POST http://localhost:3000/api/auth/register \
 ```bash
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "shah@example.com", "password": "secret123"}'
+  -d '{"username": "Shahryar", "password": "secret123"}'
 ```
 
 ### 👤 Profile
