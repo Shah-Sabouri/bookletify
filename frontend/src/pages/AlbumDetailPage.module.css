@@ -1,0 +1,90 @@
+.page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.albumInfo {
+    flex: 2;
+    min-width: 300px;
+}
+
+.sidePanel {
+    flex: 1;
+    min-width: 280px;
+    border-left: 1px solid #ddd;
+    padding-left: 20px;
+}
+
+.cover {
+    width: 250px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.tracklist {
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.duration {
+    color: gray;
+}
+
+.favBtn {
+    margin-top: 20px;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.add {
+    background-color: #ff6b81;
+}
+
+.remove {
+    background-color: #777;
+}
+
+.toast {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    opacity: 0.95;
+    z-index: 1000;
+}
+
+.center {
+    text-align: center;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+/* RESPONSIVITET */
+@media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidePanel {
+        border-left: none;
+        padding-left: 0;
+        margin-top: 24px;
+    }
+}
