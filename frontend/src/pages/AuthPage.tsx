@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { loginUser, registerUser } from "../services/authApi";
+import styles from "./AuthPage.module.css";
 
 const AuthPage: React.FC = () => {
-    // LOGIN FORM STATE
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
     const [loginError, setLoginError] = useState("");
 
-    // REGISTER FORM STATE
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
@@ -18,105 +17,83 @@ const AuthPage: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    // LOGIN HANDLER
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoginError(""); // clear previous error
+        setLoginError("");
         try {
             const { token, user } = await loginUser(loginUsername, loginPassword);
             login(token, user);
             navigate("/");
         } catch (err: unknown) {
-            if (err instanceof Error) setLoginError(err.message)
-            else setLoginError("Invalid login credentials");
+            setLoginError(err instanceof Error ? err.message : "Invalid login credentials");
         }
     };
 
-    // REGISTER HANDLER
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setRegisterError("");
         try {
             const { token, user } = await registerUser(
-                registerUsername,
-                registerEmail,
-                registerPassword
-            );
+                registerUsername, 
+                registerEmail, 
+                registerPassword);
             login(token, user);
             navigate("/");
         } catch (err: unknown) {
-            if (err instanceof Error) setRegisterError(err.message);
-            else setRegisterError("Registration failed");
+            setRegisterError(err instanceof Error ? err.message : "Registration failed");
         }
     };
 
     return (
-        <div style={{ display: "flex", gap: "20px", maxWidth: "900px", margin: "40px auto" }}>
-            
-            {/* LOGIN CARD */}
-            <div style={{ flex: 1, padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
+        <div className={styles.container}>
+            {/* LOGIN */}
+            <div className={styles.card}>
                 <h2>Login</h2>
-                {loginError && <p style={{ color: "red" }}>{loginError}</p>}
-
-                <form onSubmit={handleLogin}>
+                {loginError && <p className={styles.error}>{loginError}</p>}
+                <form onSubmit={handleLogin} className={styles.form}>
                     <input
-                        type="text"
-                        placeholder="Username"
-                        value={loginUsername}
-                        onChange={(e) => {
-                            setLoginUsername(e.target.value);
-                            setLoginError("");
-                        }}
-                        required
+                    type="text"
+                    placeholder="Username"
+                    value={loginUsername}
+                    onChange={(e) => (setLoginUsername(e.target.value), setLoginError(""))}
+                    required
                     />
                     <input
-                        type="password"
-                        placeholder="Password"
-                        value={loginPassword}
-                        onChange={(e) => {
-                            setLoginPassword(e.target.value);
-                            setLoginError("");
-                        }}
-                        required
+                    type="password"
+                    placeholder="Password"
+                    value={loginPassword}
+                    onChange={(e) => (setLoginPassword(e.target.value), setLoginError(""))}
+                    required
                     />
                     <button type="submit">Sign in</button>
                 </form>
             </div>
 
-            {/* REGISTER CARD */}
-            <div style={{ flex: 1, padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
-                <h2>Not a member? Join today!</h2>
-                {registerError && <p style={{ color: "red" }}>{registerError}</p>}
-
-                <form onSubmit={handleRegister}>
+            {/* REGISTER */}
+            <div className={styles.card}>
+                <h2>New here?</h2>
+                <p className={styles.subText}>Create an account to start rating and saving albums.</p>
+                {registerError && <p className={styles.error}>{registerError}</p>}
+                <form onSubmit={handleRegister} className={styles.form}>
                     <input
-                        type="text"
-                        placeholder="Username"
-                        value={registerUsername}
-                        onChange={(e) => {
-                            setRegisterUsername(e.target.value);
-                            setRegisterError("");
-                        }}
-                        required
+                    type="text"
+                    placeholder="Username"
+                    value={registerUsername}
+                    onChange={(e) => (setRegisterUsername(e.target.value), setRegisterError(""))}
+                    required
                     />
                     <input
-                        type="email"
-                        placeholder="Email"
-                        value={registerEmail}
-                        onChange={(e) => {
-                            setRegisterEmail(e.target.value);
-                            setRegisterError("");
-                        }}
-                        required
+                    type="email"
+                    placeholder="Email"
+                    value={registerEmail}
+                    onChange={(e) => (setRegisterEmail(e.target.value), setRegisterError(""))}
+                    required
                     />
                     <input
                         type="password"
                         placeholder="Password"
                         value={registerPassword}
-                        onChange={(e) => {
-                            setRegisterPassword(e.target.value);
-                            setRegisterError("");
-                        }}
+                        onChange={(e) => (setRegisterPassword(e.target.value), setRegisterError(""))}
                         required
                     />
                     <button type="submit">Register</button>
