@@ -39,6 +39,11 @@ export default function UserProfilePage() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [toast, setToast] = useState<string | null>(null);
 
+    const handleGoBack = () => {
+        if (window.history.state && window.history.state.idx > 0) navigate(-1);
+        else navigate("/");
+    };
+
     const showToast = (msg: string) => {
         setToast(msg);
         setTimeout(() => setToast(null), 2500);
@@ -151,8 +156,23 @@ export default function UserProfilePage() {
     
     return (
     <div className={styles.container}>
+        <button
+        onClick={handleGoBack}
+        style={{
+            position: "relative",
+            background: "none",
+            border: "none",
+            color: "#007bff",
+            cursor: "pointer",
+            fontSize: "16px",
+            marginBottom: "20px",
+        }}
+        >
+            ← Go Back
+        </button>
+
         {toast && <div className={styles.toast}>{toast}</div>}
-        
+
         <aside className={styles.sidebar}>
             <div className={styles.profileBox}>
                 <label htmlFor="profile-upload" title="Upload profile picture">
@@ -175,7 +195,6 @@ export default function UserProfilePage() {
         </aside>
 
         <main className={styles.main}>
-            {/* FAVORITES */}
             <section>
                 <div className={styles.sectionHeader}>
                     <h2>Favorites</h2>
@@ -232,7 +251,6 @@ export default function UserProfilePage() {
             </div>
         </section>
 
-        {/* REVIEWS */}
         <section>
             <div className={styles.sectionHeader}>
                 <h2>Reviews</h2>
