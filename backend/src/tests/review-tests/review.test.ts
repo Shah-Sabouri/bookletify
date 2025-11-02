@@ -1,13 +1,17 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createReview, getReviewsByAlbum, deleteReview, getAverageRatingByAlbum } from "../../services/review.service";
-import { IReview, Review } from "../../models/review.model";
+import { Review } from "../../models/review.model";
+import { model, Schema } from "mongoose";
+
+// Mock User so populate() doesn’t crash
+model("User", new Schema({ username: String }));
 
 describe("Review Service", () => {
     let mongoServer: MongoMemoryServer;
     let reviewId: string;
     const mockAlbumId = "album123";
-    const mockUserId = "user456";
+    const mockUserId = new mongoose.Types.ObjectId().toString(); // Real ObjectId string
 
     beforeAll(async () => {
         mongoServer = await MongoMemoryServer.create();
@@ -40,8 +44,11 @@ describe("Review Service", () => {
     });
 
     it("should calculate average rating correctly", async () => {
-        await createReview(mockAlbumId, "user123", "Loved it", 5);
-        await createReview(mockAlbumId, "user789", "Not bad", 3);
+        const user1 = new mongoose.Types.ObjectId().toString();
+        const user2 = new mongoose.Types.ObjectId().toString();
+
+        await createReview(mockAlbumId, user1, "Loved it", 5);
+        await createReview(mockAlbumId, user2, "Not bad", 3);
 
         const average = await getAverageRatingByAlbum(mockAlbumId);
         expect(average).not.toBeNull();
