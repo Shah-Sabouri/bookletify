@@ -83,12 +83,27 @@
 }
 
 .sectionToggle {
-    background: none;
-    border: none;
-    font-size: 18px;
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
-    transition: transform 0.2s ease;
+    font-size: 20px;
+    color: #333 !important;
+
+    padding: 4px 6px;
+    border-radius: 6px;
+
+    transition: transform 0.2s ease, color 0.2s ease;
 }
+
+.sectionToggle:hover,
+.sectionToggle:focus-visible {
+    color: #000 !important;
+    background: transparent !important;
+}
+
 
 /* Collapsible content */
 .collapse {

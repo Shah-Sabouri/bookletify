@@ -58,12 +58,27 @@
 }
 
 .toggleBtn {
-    background: none;
-    border: none;
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
-    font-size: 18px;
-    transition: transform 0.2s ease;
+    font-size: 20px;
+    color: #333 !important;
+
+    padding: 4px 6px;
+    border-radius: 6px;
+
+    transition: transform 0.2s ease, color 0.2s ease;
 }
+
+.toggleBtn:hover,
+.toggleBtn:focus-visible {
+    color: #000 !important;
+    background: transparent !important;
+}
+
 
 /* Inputs */
 .searchInput {
