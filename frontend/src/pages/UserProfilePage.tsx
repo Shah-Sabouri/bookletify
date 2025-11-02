@@ -6,6 +6,7 @@ import { discogsApi } from "../services/discogsApi";
 import { removeFromFavorites } from "../services/favoritesApi";
 import { reviewsApi } from "../services/reviewsApi";
 import styles from "./UserProfilePage.module.css";
+import GoBackButton from "../components/GoBackButton";
 
 interface Favorite {
     _id: string;
@@ -38,11 +39,6 @@ export default function UserProfilePage() {
     const [reviewsVisible, setReviewsVisible] = useState(true);
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [toast, setToast] = useState<string | null>(null);
-
-    const handleGoBack = () => {
-        if (window.history.state && window.history.state.idx > 0) navigate(-1);
-        else navigate("/");
-    };
 
     const showToast = (msg: string) => {
         setToast(msg);
@@ -159,10 +155,7 @@ export default function UserProfilePage() {
         {toast && <div className={styles.toast}>{toast}</div>}
 
         <div className={styles.topBar}>
-            <button
-            onClick={handleGoBack}
-            className={styles.goBackBtn}>
-                ← Go Back</button>
+            <GoBackButton />
         </div>
         
         <aside className={styles.sidebar}>

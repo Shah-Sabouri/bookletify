@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { discogsApi } from "../services/discogsApi";
 import { addToFavorites, removeFromFavorites, getUserFavorites } from "../services/favoritesApi";
 import ReviewsList from "../components/ReviewsList";
 import ReviewForm from "../components/ReviewForm";
 import type { Album, Track } from "../types/album";
 import { reviewsApi } from "../services/reviewsApi";
+import GoBackButton from "../components/GoBackButton";
 
 interface Favorite {
     _id: string;
@@ -18,7 +19,6 @@ interface Favorite {
 
 const AlbumDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
 
     const [album, setAlbum] = useState<Album | null>(null);
     const [loading, setLoading] = useState(false);
@@ -87,11 +87,6 @@ const AlbumDetailPage: React.FC = () => {
         }
     };
 
-    const handleGoBack = () => {
-        if (window.history.state && window.history.state.idx > 0) navigate(-1);
-        else navigate("/");
-    };
-
     if (loading) return <p>Loading album...</p>;
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!album) return <p>No album found.</p>;
@@ -119,19 +114,7 @@ const AlbumDetailPage: React.FC = () => {
         )}
 
       {/* Go Back button */}
-        <button
-            onClick={handleGoBack}
-            style={{
-                background: "none",
-                border: "none",
-                color: "#007bff",
-                cursor: "pointer",
-                fontSize: "16px",
-                marginBottom: "20px",
-            }}
-        >
-            ← Go Back
-        </button>
+        <GoBackButton />
 
         <h2>{album.title}</h2>
 
