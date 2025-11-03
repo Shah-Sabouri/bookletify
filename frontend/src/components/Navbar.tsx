@@ -3,6 +3,7 @@ import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import InstallPWAButton from "../components/InstallPWAButton";
+import IOSInstallHint from "./IOSInstallHint";
 
 const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -25,49 +26,53 @@ const Navbar: React.FC = () => {
     const userDashboardLink = user?.role === "admin" ? "/admin" : "/profile";
 
     return (
-        <nav className={styles.nav}>
-            <div className={styles.left}>
-                <Link to="/" className={styles.logo}>
-                🎵 Bookletify
-                </Link>
+        <>
+            <IOSInstallHint />
 
-                {/* PWA Install button */}
-                <div className={styles.install}>
-                    <InstallPWAButton />
-                </div>
-            </div>
-            
-            <div className={styles.center}>
-                <form onSubmit={handleSearch} className={styles.searchForm}>
-                    <input
-                    type="text"
-                    placeholder="Search albums..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className={styles.searchInput}
-                />
-                    <button type="submit" className={styles.searchBtn}>🔍</button>
-                </form>
-            </div>
-
-            <div className={styles.right}>
-                {user ? (
-                <>
-                    <span className={styles.hello}>Hello,</span>
-                    <Link to={userDashboardLink} className={styles.username}>
-                    {user.username}
+            <nav className={styles.nav}>
+                <div className={styles.left}>
+                    <Link to="/" className={styles.logo}>
+                        🎵 Bookletify
                     </Link>
-                    <button onClick={handleLogout} className={styles.logoutBtn}>
-                    Log out
-                    </button>
-                </>
-                ) : (
-                <Link to="/auth" className={styles.authLink}>
-                    Login / Register
-                </Link>
-                )}
-            </div>
-        </nav>
+
+                    {/* PWA Install button */}
+                    <div className={styles.install}>
+                        <InstallPWAButton />
+                    </div>
+                </div>
+                
+                <div className={styles.center}>
+                    <form onSubmit={handleSearch} className={styles.searchForm}>
+                        <input
+                            type="text"
+                            placeholder="Search albums..."
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            className={styles.searchInput}
+                        />
+                        <button type="submit" className={styles.searchBtn}>🔍</button>
+                    </form>
+                </div>
+
+                <div className={styles.right}>
+                    {user ? (
+                        <>
+                            <span className={styles.hello}>Hello,</span>
+                            <Link to={userDashboardLink} className={styles.username}>
+                                {user.username}
+                            </Link>
+                            <button onClick={handleLogout} className={styles.logoutBtn}>
+                                Log out
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="/auth" className={styles.authLink}>
+                            Login / Register
+                        </Link>
+                    )}
+                </div>
+            </nav>
+        </>
     );
 };
 
