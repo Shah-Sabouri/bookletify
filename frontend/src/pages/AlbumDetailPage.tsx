@@ -33,8 +33,15 @@ export default function AlbumDetailPage() {
                 const result = await discogsApi.getAlbumById(id);
                 setAlbum(result);
 
-                const favorites = await getUserFavorites();
-                setIsFavorited(favorites.some((f: Favorite) => f.albumId === id));
+                const token = localStorage.getItem("token");
+
+                if (token) {
+                    const favorites = await getUserFavorites();
+                    setIsFavorited(favorites.some((f: Favorite) => f.albumId === id));
+                } else {
+                    setIsFavorited(false);
+                }
+
             } catch {
                 setError("Failed to fetch album details.");
             } finally {
@@ -51,6 +58,13 @@ export default function AlbumDetailPage() {
     };
 
     const handleFavoriteToggle = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            showToast("Login required to favorite 👍")
+            return setTimeout(() => window.location.href = "/auth", 1000);
+        }
+
         if (!album) return;
 
         try {
@@ -127,7 +141,15 @@ export default function AlbumDetailPage() {
 
                     <h3 className={styles.revTitle}>Reviews</h3>
                     <ReviewsList albumId={id!} onDelete={handleDeleteReview} />
-                    <ReviewForm albumId={id!} />
+                    {
+                        localStorage.getItem("token")
+                        ? <ReviewForm albumId={id!} />
+                        : <button
+                        onClick={() => window.location.href = "/auth"}
+                        className={styles.loginPromptBtn}
+                        > Login to write a review ✍️
+                        </button>
+                    }
                 </aside>
             </div>
         </div>

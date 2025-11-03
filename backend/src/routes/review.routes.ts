@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.post("/", authenticateToken, addReview);
 router.get("/user", authenticateToken, getUserReviews);
-router.get("/:albumId", authenticateToken, getAlbumReviews);
+router.get("/:albumId", getAlbumReviews); //PUBLIC ROUTE
 router.delete("/:id", authenticateToken, removeReview);
-router.get("/:id/rating", getAlbumAverageRating);
+router.get("/:id/rating", getAlbumAverageRating); // PUBLIC ROUTE
 
 export default router;
