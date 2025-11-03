@@ -78,6 +78,13 @@
     font-weight: 500;
 }
 
+.install {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+
 /* ------- MOBILE LAYOUT ------- */
 @media (max-width: 600px) {
     .nav {
@@ -100,5 +107,9 @@
 
     .searchForm {
         max-width: 100%;
+    }
+
+    .install {
+        order: 0;
     }
 }

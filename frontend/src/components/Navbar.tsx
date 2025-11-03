@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
+import InstallPWAButton from "../components/InstallPWAButton";
 
 const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -29,6 +30,11 @@ const Navbar: React.FC = () => {
                 <Link to="/" className={styles.logo}>
                 🎵 Bookletify
                 </Link>
+
+                {/* PWA Install button */}
+                <div className={styles.install}>
+                    <InstallPWAButton />
+                </div>
             </div>
             
             <div className={styles.center}>
