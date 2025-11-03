@@ -54,10 +54,10 @@ export default function UserProfilePage() {
         const fetchUserData = async () => {
         try {
             const [favRes, revRes] = await Promise.all([
-                fetch(`https://bookletify-api.onrender.com/api/favorites`, {
+                fetch(`${import.meta.env.VITE_API_URL}/favorites`, {
                     headers: { Authorization: `Bearer ${token}` },
                 }),
-                fetch(`https://bookletify-api.onrender.com/api/reviews/user`, {
+                fetch(`${import.meta.env.VITE_API_URL}/reviews/user`, {
                     headers: { Authorization: `Bearer ${token}` },
                 }),
             ]);
