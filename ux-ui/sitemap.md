@@ -2,30 +2,27 @@
 
 ## Public Pages
 - Home  
-- Search (Albums / Artists)  
+- Search Results Page (Albums / Artists)
+  - Search bar
+  - Album list
 - Album Detail Page  
-  - Album Information (title, artist, release year, tracklist)  
-  - Ratings (API + user ratings)  
-  - Reviews (user reviews + external API reviews if available)  
-  - Digital Booklet (lyrics & credits)  
-- Artist Detail Page  
-  - Artist Information  
-  - Discography  
-  - Related Artists  
-- About  
+  - Album Information (title, artist, year)
+  - Tracklist  
+  - Ratings 
+  - Reviews  
 
-## Registered User Pages
-- Register  
-- Login  
+## Authenticated User Pages
 - Profile  
-  - My Favorites (saved albums)  
+  - My Favorites
   - My Reviews  
-  - Account Settings  
 
 ## Admin Pages
 - Admin Dashboard  
-  - Manage Users (CRUD)  
-  - Manage Albums (upload/update digital booklets, metadata)  
-  - Manage Reviews  
-  - Manage Roles & Permissions (optional/advanced)  
-  - Send Emails (optional/advanced)
+  - Manage Users (update role, delete user)  
+  - Access to user reviews  
+
+## PWA & System
+- Install App (desktop & mobile)
+- Offline Mode Support (cached content + fallback behavior)
+- Responsive UI
+- Error / 404 Page
