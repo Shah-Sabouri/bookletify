@@ -24,12 +24,12 @@ Backend: https://bookletify-api.onrender.com
 ## 📦 Project Links
 
 ### 🧪 Development Setup
-📁 [frontend/README.md](./frontend/README.md)
-📁 [backend/README.md](./backend/README.md)
+📁 [frontend/README.md](./frontend/README.md)  
+📁 [backend/README.md](./backend/README.md) 
 
 ### 👇 UX/UI Documentation
-📁 [ux-ui/sitemap.md](./ux-ui/sitemap.md)
-📁 [ux-ui/user-study.md](./ux-ui/user-study.md)
+📁 [ux-ui/sitemap.md](./ux-ui/sitemap.md)  
+📁 [ux-ui/user-study.md](./ux-ui/user-study.md) 
 
 Each section contains detailed setup, features, and development notes.
 
