@@ -1,16 +1,16 @@
 # 🎵 Bookletify Backend
 
 ## Table of Contents
-- [Description](#-description)
-- [Tech stack](#-tech-stack)
-- [Installation](#-installation)
-- [Environment variables](#-environment-variables)
-- [Running the server](#-running-the-server)
-- [Endpoints](#-endpoints)
-- [Features](#-features)
-- [Folder structure](#-folder-structure)
-- [Future improvements](#-future-improvements)
-- [Author](#-author)
+- [Description](#description)
+- [Tech stack](#tech-stack)
+- [Installation](#installation)
+- [Environment variables](#environment-variables)
+- [Running the server](#running-the-server)
+- [Endpoints](#endpoints)
+- [Features](#features)
+- [Folder structure](#folder-structure)
+- [Future improvements](#future-improvements)
+- [Author](#author)
 
 ---
 
@@ -179,5 +179,5 @@ src/
 - Language options (other than English)
 
 ## 👨‍💻 Author
-Shahryar Sabouri  
+**Shahryar Sabouri**
 FOS24 @ Chas Academy

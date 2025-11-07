@@ -1,73 +1,129 @@
-# React + TypeScript + Vite
+# 🎵 Bookletify Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
+- [Overview](#overview)
+- [Tech stack](#tech-stack)
+- [Features](#features)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the App](#running-the-app)
+- [PWA Support](#pwa-support)
+- [Folder Structure](#folder-structure)
+- [Future Enhancements](#future-enhancements)
+- [Author](#author)
 
-Currently, two official plugins are available:
+## 📖 Overview
+Bookletify is a music discovery and review platform where users can:
+- Search albums via the Discogs API
+- Log in / register
+- Save favorites
+- Write reviews
+- Access personal profile
+- Use an admin dashboard to manage users & roles
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Live app:**
+👉 https://bookletify.netlify.app
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧰 Tech Stack
 
-## Expanding the ESLint configuration
+|  Layer   | Technology |
+|----------|------------|
+| Framework | React (TS) |
+|    UI     | CSS Modules |
+|    HTTP   |    Axios    |
+|    Auth   | JWT + Axios |
+| PWA | Vite Plugin PWA + Workbox |
+| Routing | React Router DOM |
+| Deployment | Netlify |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
+- 🔐 Authentication (Login & Register)
+- 👤 User Profile & Favorites
+- 💬 Write / Delete Reviews
+- 🌐 Discogs Album Search Integration
+- 🛠 Admin Panel (role changes, user mgmt)
+- 📱 Fully responsive UI
+- 📦 PWA support (Installable app, offline fallback)
+- 🧠 Context API auth management
+- ✨ Clean modular file structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Installation
+```bash
+git clone https://github.com/Shah-Sabouri/bookletify
+cd frontend
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🌍 Environment Variables
+Create .env in /frontend:
+```ini
+VITE_API_URL=https://bookletify-api.onrender.com/api
 ```
+
+---
+
+## ▶️ Running the App
+### Development:
+```bash
+npm run dev
+```
+### Build:
+```bash
+npm run build
+```
+### Preview build:
+```bash
+npm run preview
+```
+
+---
+
+## 📱 PWA Support
+Bookletify can be **installed on mobile & desktop**.
+
+✅ Service worker
+✅ Offline caching for visited pages
+✅ Add-to-Home-Screen prompt
+✅ iOS install hint fallback
+
+Build with:
+```js
+VitePWA({
+  registerType: "autoUpdate"
+})
+```
+
+## Folder Structure
+```txt
+src/
+├── components/
+├── context/
+├── pages/
+├── services/
+├── hooks/
+├── styles/
+└── main.tsx
+```
+
+---
+
+## 🔮 Future Enhancements
+- Edit review UX
+- Spotify/Web music preview integration
+- Full offline “read-only mode”
+- Admin: moderation queue for reviews
+- React Query for data caching/scalability
+
+---
+
+## 👤 Author
+**Shahryar Sabouri**
+FOS24 @ Chas Academy
