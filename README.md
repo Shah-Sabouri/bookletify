@@ -6,7 +6,7 @@ This repo contains both **frontend (React + Vite)** and **backend (Node + TS + E
 ---
 
 ## 🚀 Live App
-Frontend: https://bookletify.netlify.app
+Frontend: https://bookletify.netlify.app  
 Backend: https://bookletify-api.onrender.com
 
 ---
@@ -71,5 +71,5 @@ This project was built as part of the Advanced JavaScript course at Chas Academy
 
 ## 👤 Author
 
-**Shahryar Sabouri**
+**Shahryar Sabouri**  
 Full-Stack Developer - FOS24 @ Chas Academy
