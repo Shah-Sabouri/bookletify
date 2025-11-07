@@ -64,7 +64,7 @@ npm install
 
 ## 🌍 Environment Variables
 Create .env in /frontend:
-```ini
+```bash
 VITE_API_URL=https://bookletify-api.onrender.com/api
 ```
 
@@ -102,7 +102,7 @@ VitePWA({
 ```
 
 ## Folder Structure
-```txt
+```bash
 src/
 ├── components/
 ├── context/
